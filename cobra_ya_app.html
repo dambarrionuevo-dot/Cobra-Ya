@@ -168,7 +168,7 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
   <div id="tab-1" class="tab-content">
     <div id="evol-snap"></div>
     <div class="stitle">Evolución del Periodo</div>
-    <div class="cc"><div class="ct">Monto Adelantado (M$) vs Monto Cobrado (M$)</div><canvas id="cDual"></canvas></div>
+    <div class="cc"><div class="ct">Monto Solicitado (M$) vs Comisiones (M$)</div><canvas id="cDual"></canvas></div>
     <div class="cc"><div class="ct">Solicitudes: Aprobadas vs Pendientes</div><canvas id="cPend"></canvas></div>
     <div class="cc"><div class="ct">Transportes Activos por Mes</div><canvas id="cActivos"></canvas></div>
     <div class="cc"><div class="ct">Nuevos Transportes y Acumulado</div><canvas id="cNuevos"></canvas></div>
@@ -179,6 +179,7 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
   <!-- TAB 2: ADOPCIÓN -->
   <div id="tab-2" class="tab-content">
     <div id="adop-snap"></div>
+    <div id="adop-unicos"></div>
     <div id="adop-kpis">
       <div class="kg">
         <div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
@@ -189,7 +190,7 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
       </div>
     </div>
     <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
-    <div class="cc"><div class="ct">Monto Adelantado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
+    <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
     <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
     <div class="al ve"><strong>Los 78 de 10 meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
     <div class="stitle mt">Top 15 Transportes por Volumen</div>
@@ -204,11 +205,11 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
   <div id="tab-3" class="tab-content">
     <div class="stitle">Detalle Mensual</div>
     <div class="tw"><table>
-      <thead><tr><th>Mes</th><th class="r">Monto</th><th class="r">Cobrado</th><th class="c">Aprob.</th><th class="c">Pend.</th><th class="c">Transp.</th><th class="c">Nuevos</th></tr></thead>
+      <thead><tr><th>Mes</th><th class="r">Solicitado</th><th class="r">Comisiones</th><th class="c">Aprob.</th><th class="c">Pend.</th><th class="c">Transp.</th><th class="c">Nuevos</th></tr></thead>
       <tbody id="det-body"></tbody>
     </table></div>
     <div class="stitle mt">Análisis</div>
-    <div class="cc"><div class="ct">Monto Cobrado por Mes (M$)</div><canvas id="cCob"></canvas></div>
+    <div class="cc"><div class="ct">Comisiones por Mes (M$)</div><canvas id="cCob"></canvas></div>
     <div class="cc"><div class="ct">Eficiencia: M$ Adelantados por Transporte Activo</div><canvas id="cEfic"></canvas></div>
     <p class="nota">Sin rechazos en todo el periodo. "Nuevos" = CUIT que aparece por primera vez.</p>
   </div>
@@ -238,8 +239,8 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
       <div class="fg"><label>Etiqueta</label><input type="text" id="fm-lbl" placeholder="Ej: May-26"></div>
       <span class="fsub">📈 Montos (en millones de $)</span>
       <div class="kg" style="gap:8px;margin-bottom:0">
-        <div class="fg"><label>Monto Adelantado</label><input type="number" id="fm-monto" placeholder="Ej: 5000"></div>
-        <div class="fg"><label>Monto Cobrado</label><input type="number" id="fm-cob" placeholder="Ej: 142"></div>
+        <div class="fg"><label>Monto Solicitado</label><input type="number" id="fm-monto" placeholder="Ej: 5000"></div>
+        <div class="fg"><label>Comisiones</label><input type="number" id="fm-cob" placeholder="Ej: 142"></div>
       </div>
       <span class="fsub">📋 Solicitudes</span>
       <div class="kg" style="gap:8px;margin-bottom:0">
@@ -438,16 +439,16 @@ function renderResCons() {
   document.getElementById('res-content').innerHTML=`
     <div class="stitle">Resumen Ejecutivo — ${first?first.label:''} a ${last?last.label:''}</div>
     <div class="kg">
-      <div class="kpi"><div class="kl">Monto Adelantado</div><div class="kv">${fmM(tM)}</div><div class="ks">${months.length} meses</div></div>
-      <div class="kpi na"><div class="kl">Monto Cobrado</div><div class="kv">${fmM(tC)}</div><div class="ks">Prom: ${fmM(Math.round(tC/months.length))}/mes</div></div>
+      <div class="kpi"><div class="kl">Monto Solicitado</div><div class="kv">${fmM(tM)}</div><div class="ks">${months.length} meses</div></div>
+      <div class="kpi na"><div class="kl">Comisiones</div><div class="kv">${fmM(tC)}</div><div class="ks">Prom: ${fmM(Math.round(tC/months.length))}/mes</div></div>
       <div class="kpi"><div class="kl">Solicitudes</div><div class="kv">${(tA+tP).toLocaleString('es-AR')}</div><div class="ks">Aprobadas: <span class="pos">${apPct}%</span></div></div>
       <div class="kpi ve"><div class="kl">Activos ${last?last.label:''}</div><div class="kv">${last?last.transp.toLocaleString('es-AR'):0}</div><div class="ks"><span class="pos">+${crec}%</span> vs inicio</div></div>
     </div>
     <div class="kg">
       <div class="kpi na"><div class="kl">Mejor Mes</div><div class="kv">${bestM?bestM.label:'—'}</div><div class="ks">${bestM?fmM(bestM.monto):''}</div></div>
-      <div class="kpi na"><div class="kl">Mayor Cobrado</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
+      <div class="kpi na"><div class="kl">Mayor Comisión</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
       <div class="kpi ${crec>0?'ve':'ro'}"><div class="kl">Crecimiento</div><div class="kv"><span class="${crec>0?'pos':'neg'}">${crec>0?'+':''}${crec}%</span></div><div class="ks">Monto mensual</div></div>
-      <div class="kpi"><div class="kl">Pendientes totales</div><div class="kv">${tP.toLocaleString('es-AR')}</div><div class="ks">${((tP/(tA+tP))*100).toFixed(1)}% del total</div></div>
+      <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
     </div>
     <div class="al ve"><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div>
     <div class="al na"><strong>${apPct}% de tasa de aprobación en el periodo</strong><p>De ${(tA+tP).toLocaleString('es-AR')} solicitudes totales, ${tA.toLocaleString('es-AR')} aprobadas y ${tP.toLocaleString('es-AR')} pendientes.</p></div>
@@ -467,8 +468,8 @@ function renderResMes(m) {
   als.push({t:'az',ti:`${m.nuevos.toLocaleString('es-AR')} nuevos transportes en ${m.label}`,b:`Total activos: ${m.transp.toLocaleString('es-AR')} empresas.`});
   document.getElementById('res-content').innerHTML=`
     <div class="kg">
-      <div class="kpi"><div class="kl">Monto Adelantado</div><div class="kv">${fmM(m.monto)}</div><div class="ks">${sub(m.monto,p&&p.monto,p&&p.label,'Primer mes')}</div></div>
-      <div class="kpi na"><div class="kl">Monto Cobrado</div><div class="kv">${fmM(m.cobrado)}</div><div class="ks">${sub(m.cobrado,p&&p.cobrado,p&&p.label,'Primer mes')}</div></div>
+      <div class="kpi"><div class="kl">Monto Solicitado</div><div class="kv">${fmM(m.monto)}</div><div class="ks">${sub(m.monto,p&&p.monto,p&&p.label,'Primer mes')}</div></div>
+      <div class="kpi na"><div class="kl">Comisiones</div><div class="kv">${fmM(m.cobrado)}</div><div class="ks">${sub(m.cobrado,p&&p.cobrado,p&&p.label,'Primer mes')}</div></div>
       <div class="kpi"><div class="kl">Aprobadas</div><div class="kv">${m.apro.toLocaleString('es-AR')}</div><div class="ks">${sub(m.apro,p&&p.apro,p&&p.label,'Primer mes')}</div></div>
       <div class="kpi ${pCls}"><div class="kl">Pendientes</div><div class="kv">${m.pend.toLocaleString('es-AR')}</div><div class="ks">${pndPct}% del total</div></div>
     </div>
@@ -488,8 +489,8 @@ function renderEvol() {
   if(sel){
     const p=getPrev(sel);
     snap.innerHTML=`<div class="snap"><div class="cmp-g">
-      <div><span class="cmp-l">Monto</span><span class="cmp-v">${fmM(sel.monto)}</span><span class="cmp-s">${p?pct(sel.monto,p.monto)||'—':'—'}</span></div>
-      <div><span class="cmp-l">Cobrado</span><span class="cmp-v">${fmM(sel.cobrado)}</span><span class="cmp-s">${p?pct(sel.cobrado,p.cobrado)||'—':'—'}</span></div>
+      <div><span class="cmp-l">Solicitado</span><span class="cmp-v">${fmM(sel.monto)}</span><span class="cmp-s">${p?pct(sel.monto,p.monto)||'—':'—'}</span></div>
+      <div><span class="cmp-l">Comisiones</span><span class="cmp-v">${fmM(sel.cobrado)}</span><span class="cmp-s">${p?pct(sel.cobrado,p.cobrado)||'—':'—'}</span></div>
       <div><span class="cmp-l">Aprobadas</span><span class="cmp-v">${sel.apro.toLocaleString('es-AR')}</span><span class="cmp-s">${p?pct(sel.apro,p.apro)||'—':'—'}</span></div>
       <div><span class="cmp-l">Pendientes</span><span class="cmp-v">${sel.pend}</span><span class="cmp-s">${p?pct(sel.pend,p.pend)||'—':'—'}</span></div>
       <div><span class="cmp-l">Transp.</span><span class="cmp-v">${sel.transp.toLocaleString('es-AR')}</span><span class="cmp-s">${p?pct(sel.transp,p.transp)||'—':'—'}</span></div>
@@ -505,11 +506,11 @@ function renderEvol() {
   let cum=0; const cumA=months.map(m=>{cum+=m.nuevos;return cum;});
 
   mk('cDual',{type:'bar',data:{labels:L,datasets:[
-    {label:'Monto Adelantado',data:months.map(m=>m.monto),backgroundColor:montoCol,borderRadius:4,yAxisID:'y',order:2},
-    {label:'Monto Cobrado',data:months.map(m=>m.cobrado),type:'line',borderColor:NA,backgroundColor:'rgba(245,143,0,.1)',tension:.35,fill:true,pointBackgroundColor:cobCol,pointRadius:4,yAxisID:'y1',borderWidth:2,order:1}
+    {label:'Monto Solicitado',data:months.map(m=>m.monto),backgroundColor:montoCol,borderRadius:4,yAxisID:'y',order:2},
+    {label:'Comisiones',data:months.map(m=>m.cobrado),type:'line',borderColor:NA,backgroundColor:'rgba(245,143,0,.1)',tension:.35,fill:true,pointBackgroundColor:cobCol,pointRadius:4,yAxisID:'y1',borderWidth:2,order:1}
   ]},options:{responsive:true,plugins:{legend:LG,tooltip:TIP},scales:{x:AXX,
-    y:{...AXY,position:'left',title:{display:true,text:'Adelantado (M$)',color:AZ,font:{size:9}}},
-    y1:{position:'right',ticks:{color:NA,callback:v=>'$'+v+' M',font:FNT},grid:{drawOnChartArea:false},title:{display:true,text:'Cobrado (M$)',color:NA,font:{size:9}}}
+    y:{...AXY,position:'left',title:{display:true,text:'Solicitado (M$)',color:AZ,font:{size:9}}},
+    y1:{position:'right',ticks:{color:NA,callback:v=>'$'+v+' M',font:FNT},grid:{drawOnChartArea:false},title:{display:true,text:'Comisiones (M$)',color:NA,font:{size:9}}}
   }}});
 
   mk('cPend',{type:'bar',data:{labels:L,datasets:[
@@ -534,6 +535,7 @@ function renderEvol() {
 function renderAdop() {
   const sel=getSel();
   const snap=document.getElementById('adop-snap');
+  const uniEl=document.getElementById('adop-unicos');
   if(sel){
     const p=getPrev(sel);
     snap.innerHTML=`<div class="kg">
@@ -541,7 +543,11 @@ function renderAdop() {
       <div class="kpi na"><div class="kl">Nuevos Transp.</div><div class="kv">${sel.nuevos}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
     </div><div class="dvdr"></div>
     <div class="stitle">Fidelidad — Periodo Completo</div>`;
-  } else snap.innerHTML='';
+    if(uniEl) uniEl.innerHTML='';
+  } else {
+    snap.innerHTML='';
+    if(uniEl) uniEl.innerHTML=`<div class="kg kg1"><div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez en el periodo</div></div></div>`;
+  }
 
   mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
   mk('cRetMs',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Monto (M$)',data:RETMS,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
@@ -572,7 +578,7 @@ function renderDatos() {
   // Charts
   const L=months.map(m=>m.label);
   const cobCol=colsFor('rgba(245,143,0,.8)','rgba(245,143,0,.2)');
-  mk('cCob',{type:'bar',data:{labels:L,datasets:[{label:'Cobrado (M$)',data:months.map(m=>m.cobrado),backgroundColor:cobCol,borderColor:NA,borderWidth:1.5,borderRadius:5}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:ctx=>'$'+ctx.raw+' M'}}},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>'$'+v+' M',font:FNT}}}}});
+  mk('cCob',{type:'bar',data:{labels:L,datasets:[{label:'Comisiones (M$)',data:months.map(m=>m.cobrado),backgroundColor:cobCol,borderColor:NA,borderWidth:1.5,borderRadius:5}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:ctx=>'$'+ctx.raw+' M'}}},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>'$'+v+' M',font:FNT}}}}});
 
   const efic=months.map(m=>m.transp>0?+(m.monto/m.transp).toFixed(1):0);
   mk('cEfic',{type:'line',data:{labels:L,datasets:[{label:'M$/Transp.',data:efic,borderColor:AZ,backgroundColor:'rgba(41,51,128,.1)',tension:.35,fill:true,pointBackgroundColor:colsFor(AZ,AZ0),pointRadius:5,borderWidth:2}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>v+' M',font:FNT}}}}});
@@ -595,7 +601,7 @@ function renderCargar() {
   if(!months.length){list.innerHTML='<div style="text-align:center;padding:20px;color:var(--mu);font-size:.85rem">Sin meses cargados</div>';return;}
   [...months].reverse().forEach(m=>{
     const div=document.createElement('div'); div.className='mi';
-    div.innerHTML=`<div><div class="mi-l">${m.label} <span class="badge b-na">${fmM(m.monto)}</span></div><div class="mi-s">Cobrado: ${fmM(m.cobrado)} · Transp: ${m.transp} · Nuevos: ${m.nuevos}</div></div>
+    div.innerHTML=`<div><div class="mi-l">${m.label} <span class="badge b-na">${fmM(m.monto)}</span></div><div class="mi-s">Comis: ${fmM(m.cobrado)} · Transp: ${m.transp} · Nuevos: ${m.nuevos}</div></div>
     <div style="display:flex;gap:4px">
       <button onclick="editMonth('${m.id}')" style="padding:5px 8px;border-radius:7px;border:1.5px solid var(--bd);background:#fff;cursor:pointer;font-size:.75rem">✏️</button>
       <button onclick="deleteMonth('${m.id}')" style="padding:5px 8px;border-radius:7px;border:1.5px solid var(--ro);background:#fff;cursor:pointer;font-size:.75rem;color:var(--ro)">🗑️</button>
@@ -719,8 +725,8 @@ function parseCYExcel(wb,fi) {
 function showPreview(m) {
   document.getElementById('prev-content').innerHTML=`
     <div style="font-weight:700;margin-bottom:8px">Datos detectados: ${m.label||'Sin período'}${!m.id?'<br><small style="color:var(--ro);font-weight:400">⚠️ Período no detectado — completalo abajo</small>':''}</div>
-    <div class="prev-row"><span>Monto Adelantado</span><strong>${fmM(m.monto)}</strong></div>
-    <div class="prev-row"><span>Monto Cobrado</span><strong>${fmM(m.cobrado)}</strong></div>
+    <div class="prev-row"><span>Monto Solicitado</span><strong>${fmM(m.monto)}</strong></div>
+    <div class="prev-row"><span>Comisiones</span><strong>${fmM(m.cobrado)}</strong></div>
     <div class="prev-row"><span>Aprobadas</span><strong>${m.apro.toLocaleString('es-AR')}</strong></div>
     <div class="prev-row"><span>Pendientes</span><strong>${m.pend}</strong></div>
     <div class="prev-row"><span>Transportes (CUITs únicos)</span><strong>${m.transp.toLocaleString('es-AR')}</strong></div>
