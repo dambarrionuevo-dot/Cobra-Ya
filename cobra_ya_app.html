@@ -179,16 +179,7 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
   <!-- TAB 2: ADOPCIÓN -->
   <div id="tab-2" class="tab-content">
     <div id="adop-snap"></div>
-    <div id="adop-unicos"></div>
-    <div id="adop-kpis">
-      <div class="kg">
-        <div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
-        <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>
-      </div>
-      <div class="kg kg1">
-        <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% — mayor segmento individual</div></div>
-      </div>
-    </div>
+    <div id="adop-kpis"></div>
     <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
     <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
     <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
@@ -297,7 +288,7 @@ tr.sel-row td{background:#FFF8E1!important;border-left:3px solid var(--na)}
 // ===== SEED DATA =====
 const SEED = [
   {id:"2025-07",label:"Jul-25",monto:2541,cobrado:105,apro:2558,pend:54, transp:644, nuevos:644},
-  {id:"2025-08",label:"Ago-25",monto:824, cobrado:32, apro:767, pend:7,  transp:342, nuevos:108},
+  {id:"2025-08",label:"Ago-25",monto:2119,cobrado:87, apro:2027,pend:44, transp:608, nuevos:233},
   {id:"2025-09",label:"Sep-25",monto:1807,cobrado:74, apro:1804,pend:79, transp:546, nuevos:170},
   {id:"2025-10",label:"Oct-25",monto:1858,cobrado:80, apro:2028,pend:22, transp:621, nuevos:150},
   {id:"2025-11",label:"Nov-25",monto:2078,cobrado:71, apro:2313,pend:340,transp:691, nuevos:171},
@@ -335,11 +326,11 @@ const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF
 let months = [], selPer = 'all', pselOpen = false, activeTab = 0, pendingImport = null;
 
 function loadMonths() {
-  try { const s = localStorage.getItem('cy_v2'); months = s ? JSON.parse(s) : [...SEED]; }
+  try { const s = localStorage.getItem('cy_v3'); months = s ? JSON.parse(s) : [...SEED]; }
   catch(e) { months = [...SEED]; }
   months.sort((a,b) => a.id.localeCompare(b.id));
 }
-function saveMonths() { localStorage.setItem('cy_v2', JSON.stringify(months)); }
+function saveMonths() { localStorage.setItem('cy_v3', JSON.stringify(months)); }
 
 // ===== HELPERS =====
 const AZ='#293380', NA='#F58F00', VE='#4CAF50', RO='#D32F2F';
@@ -535,7 +526,11 @@ function renderEvol() {
 function renderAdop() {
   const sel=getSel();
   const snap=document.getElementById('adop-snap');
-  const uniEl=document.getElementById('adop-unicos');
+  const kpisEl=document.getElementById('adop-kpis');
+  const tot=RETCNT.reduce((s,v)=>s+v,0);
+  const K10=`<div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>`;
+  const K5=`<div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>`;
+  const K1=`<div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>`;
   if(sel){
     const p=getPrev(sel);
     snap.innerHTML=`<div class="kg">
@@ -543,10 +538,11 @@ function renderAdop() {
       <div class="kpi na"><div class="kl">Nuevos Transp.</div><div class="kv">${sel.nuevos}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
     </div><div class="dvdr"></div>
     <div class="stitle">Fidelidad — Periodo Completo</div>`;
-    if(uniEl) uniEl.innerHTML='';
+    kpisEl.innerHTML=`<div class="kg">${K10}${K5}${K1}</div>`;
   } else {
     snap.innerHTML='';
-    if(uniEl) uniEl.innerHTML=`<div class="kg kg1"><div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez en el periodo</div></div></div>`;
+    const KU=`<div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>`;
+    kpisEl.innerHTML=`<div class="kg">${KU}${K5}${K10}${K1}</div>`;
   }
 
   mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
