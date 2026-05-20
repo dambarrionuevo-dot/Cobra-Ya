@@ -60,6 +60,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;co
 /* KPI */
 .kg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .kg1{grid-template-columns:1fr}
+.kg3{grid-template-columns:1fr 1fr 1fr}
+.kg3 .kpi{padding:11px 10px 10px}
+.kg3 .kv{font-size:1.15rem}
 .kpi{background:linear-gradient(145deg,#fff 0%,#f5f6fe 100%);border-radius:14px;padding:14px 14px 12px;border-top:3.5px solid var(--az);box-shadow:0 2px 8px rgba(41,51,128,.07);transition:transform .1s,box-shadow .1s}
 .kpi.na{border-top-color:var(--na);background:linear-gradient(145deg,#fff 0%,#fff8ee 100%)}
 .kpi.ve{border-top-color:var(--ve);background:linear-gradient(145deg,#fff 0%,#f3fbf3 100%)}
@@ -447,11 +450,10 @@ function renderResCons() {
       <div class="kpi"><div class="kl">Solicitudes</div><div class="kv">${(tA+tP).toLocaleString('es-AR')}</div><div class="ks">Aprobadas: <span class="pos">${apPct}%</span></div></div>
       <div class="kpi ve"><div class="kl">Activos ${last?last.label:''}</div><div class="kv">${last?last.transp.toLocaleString('es-AR'):0}</div><div class="ks"><span class="pos">+${crec}%</span> vs inicio</div></div>
     </div>
-    <div class="kg">
+    <div class="kg kg3">
       <div class="kpi na"><div class="kl">Mejor Mes</div><div class="kv">${bestM?bestM.label:'—'}</div><div class="ks">${bestM?fmM(bestM.monto):''}</div></div>
       <div class="kpi na"><div class="kl">Mayor Comisión</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
       <div class="kpi ${crec>0?'ve':'ro'}"><div class="kl">Crecimiento</div><div class="kv"><span class="${crec>0?'pos':'neg'}">${crec>0?'+':''}${crec}%</span></div><div class="ks">Monto mensual</div></div>
-      <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
     </div>
     <div class="al ve"><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div>
     <div class="al na"><strong>${apPct}% de tasa de aprobación en el periodo</strong><p>De ${(tA+tP).toLocaleString('es-AR')} solicitudes totales, ${tA.toLocaleString('es-AR')} aprobadas y ${tP.toLocaleString('es-AR')} pendientes.</p></div>
@@ -476,11 +478,10 @@ function renderResMes(m) {
       <div class="kpi"><div class="kl">Aprobadas</div><div class="kv">${m.apro.toLocaleString('es-AR')}</div><div class="ks">${sub(m.apro,p&&p.apro,p&&p.label,'Primer mes')}</div></div>
       <div class="kpi ${pCls}"><div class="kl">Pendientes</div><div class="kv">${m.pend.toLocaleString('es-AR')}</div><div class="ks">${pndPct}% del total</div></div>
     </div>
-    <div class="kg">
+    <div class="kg kg3">
       <div class="kpi"><div class="kl">Transp. Activos</div><div class="kv">${m.transp.toLocaleString('es-AR')}</div><div class="ks">${sub(m.transp,p&&p.transp,p&&p.label,'Primer mes')}</div></div>
       <div class="kpi na"><div class="kl">Nuevos Transp.</div><div class="kv">${m.nuevos.toLocaleString('es-AR')}</div><div class="ks">${sub(m.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
       <div class="kpi ${vM!==null?(vM>0?'ve':'ro'):''}"><div class="kl">Variación Monto</div><div class="kv">${vM!==null?(vM>0?'<span class="pos">+':'<span class="neg">')+vM.toFixed(1)+'%</span>':'—'}</div><div class="ks">${p?'vs '+p.label:'Sin mes previo'}</div></div>
-      <div class="kpi ve"><div class="kl">Aprobación</div><div class="kv"><span class="pos">${apPct}%</span></div><div class="ks">del total de solicitudes</div></div>
     </div>
     ${als.map(a=>`<div class="al ${a.t}"><strong>${a.ti}</strong><p>${a.b}</p></div>`).join('')}`;
 }
