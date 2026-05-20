@@ -454,8 +454,7 @@ function renderResCons() {
       <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
     </div>
     <div class="al ve"><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div>
-    <div class="al na"><strong>${apPct}% de tasa de aprobación en el periodo</strong><p>De ${(tA+tP).toLocaleString('es-AR')} solicitudes totales, ${tA.toLocaleString('es-AR')} aprobadas y ${tP.toLocaleString('es-AR')} pendientes.</p></div>
-    <div class="al az"><strong>Top 10% concentra el 55,9% del monto</strong><p>215 transportes generan más de la mitad del volumen adelantado.</p></div>`;
+    <div class="al na"><strong>${apPct}% de tasa de aprobación en el periodo</strong><p>De ${(tA+tP).toLocaleString('es-AR')} solicitudes totales, ${tA.toLocaleString('es-AR')} aprobadas y ${tP.toLocaleString('es-AR')} pendientes.</p></div>`;
 }
 
 function renderResMes(m) {
@@ -482,7 +481,7 @@ function renderResMes(m) {
       <div class="kpi ${vM!==null?(vM>0?'ve':'ro'):''}"><div class="kl">Variación Monto</div><div class="kv">${vM!==null?(vM>0?'<span class="pos">+':'<span class="neg">')+vM.toFixed(1)+'%</span>':'—'}</div><div class="ks">${p?'vs '+p.label:'Sin mes previo'}</div></div>
       <div class="kpi ve"><div class="kl">Aprobación</div><div class="kv"><span class="pos">${apPct}%</span></div><div class="ks">del total de solicitudes</div></div>
     </div>
-    ${als.map(a=>`<div class="al ${a.t}"><strong>${a.ti}</strong><p>${a.b}</p></div>`).join('')}`;
+    ${als.slice(0,2).map(a=>`<div class="al ${a.t}"><strong>${a.ti}</strong><p>${a.b}</p></div>`).join('')}`;
 }
 
 // ===== EVOLUCIÓN =====
