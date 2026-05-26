@@ -804,7 +804,7 @@ function parseCYExcel(wb,fi) {
     const r=rows[i]; if(!r.length||r.every(c=>c==='')) continue;
     if(cImp>=0) sumImp+=toN(r[cImp]);
     if(cCom>=0) sumCom+=toN(r[cCom]);
-    if(cEst>=0){const e=String(r[cEst]).toLowerCase();/aprob/.test(e)?nA++:/pend/.test(e)?nP++:0;}
+    if(cEst>=0){const e=String(r[cEst]).toLowerCase();if(/aprob/.test(e))nA++;else nP++;}
     if(cCuit>=0&&r[cCuit]){
       const ck=String(r[cCuit]).trim();
       cuits.add(ck);
