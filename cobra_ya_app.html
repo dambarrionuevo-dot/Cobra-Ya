@@ -298,6 +298,7 @@ const SEED = [
   {id:"2026-02",label:"Feb-26",monto:2286,cobrado:69, apro:2383,pend:101,transp:735, nuevos:134},
   {id:"2026-03",label:"Mar-26",monto:3664,cobrado:113,apro:4151,pend:96, transp:979, nuevos:220},
   {id:"2026-04",label:"Abr-26",monto:4729,cobrado:134,apro:4474,pend:46, transp:1049,nuevos:209},
+  {id:"2026-05",label:"May-26",monto:5488,cobrado:160,apro:5046,pend:0,  transp:1073,nuevos:174},
 ];
 
 const RANKING = [
@@ -329,6 +330,7 @@ const RANKING_MES={
   "2026-02":{pct:20.0,items:[{n:"Caminos Al Puerto S.R.L.",ops:43,monto:92.9},{n:"Rodriguez Ramiro Gabriel",ops:18,monto:56.9},{n:"Carbajal Jose Miguel",ops:19,monto:36.5},{n:"Ramos Fernando Abel",ops:2,monto:33.1},{n:"Flores Maria Teresa",ops:14,monto:31.8},{n:"Logística don Fermín Trenque lauquen",ops:32,monto:27.9},{n:"Hein Joaquin Nicolas",ops:30,monto:25.9},{n:"Logistica Brian S. R. L.",ops:16,monto:25.1},{n:"Francisco Joaquin Guerrero",ops:9,monto:20.4},{n:"Marcelo Alejandro Vallozzi",ops:28,monto:19.5},{n:"Enri Claudio Marcelo",ops:7,monto:19.0},{n:"Lavaselli Jose Luis",ops:10,monto:18.3},{n:"Cimini German Esteban",ops:9,monto:16.7},{n:"Gaitan Camilo Catriel Alberto",ops:9,monto:16.2},{n:"Mariscal Guido Khalil",ops:7,monto:16.1}]},
   "2026-03":{pct:20.8,items:[{n:"Caminos Al Puerto S.R.L.",ops:67,monto:198.0},{n:"Flores Maria Teresa",ops:23,monto:73.4},{n:"Enri Claudio Marcelo",ops:25,monto:68.0},{n:"Bertotto Jose Luis",ops:16,monto:66.4},{n:"Logística don Fermín Trenque lauquen",ops:47,monto:63.0},{n:"Cortell Juan Carlos Ariel",ops:25,monto:42.9},{n:"Trans-Cereal Sociedad Anonima",ops:74,monto:41.3},{n:"Ramos Fernando Abel",ops:2,monto:34.2},{n:"Servicios Jfdc S.R.L",ops:21,monto:32.6},{n:"Taruka S. R. L.",ops:10,monto:27.0},{n:"Monti Lorena Beatriz",ops:20,monto:24.2},{n:"Villavicencio Luciano Andres",ops:39,monto:24.2},{n:"Baute Cristian Dardo",ops:21,monto:23.5},{n:"Rondan Ruben Alberto",ops:21,monto:22.8},{n:"Betique Cesar Sebastian",ops:13,monto:22.3}]},
   "2026-04":{pct:24.6,items:[{n:"Caminos Al Puerto S.R.L.",ops:51,monto:362.8},{n:"Cuarta Raza Sa",ops:12,monto:85.2},{n:"Agrotransporte Aldao S.A.",ops:33,monto:84.3},{n:"Taruka S. R. L.",ops:15,monto:67.7},{n:"Sosa Violeta Marina",ops:32,monto:67.4},{n:"Logística don Fermín Trenque lauquen",ops:39,monto:66.8},{n:"Heredia Walter E Hijos S.A.S.",ops:24,monto:62.7},{n:"Monti Lorena Beatriz",ops:17,monto:62.4},{n:"Enri Claudio Marcelo",ops:16,monto:58.1},{n:"Flores Maria Teresa",ops:10,monto:50.7},{n:"Ramos Fernando Abel",ops:2,monto:42.1},{n:"Lucero Leonardo Fabio",ops:22,monto:40.3},{n:"Buldain Cristian Daniel",ops:12,monto:35.6},{n:"Cortell Juan Carlos Ariel",ops:19,monto:31.0},{n:"Transporte Juarez",ops:21,monto:44.4}]},
+  "2026-05":{pct:27.4,items:[{n:"Caminos Al Puerto S.R.L.",ops:63,monto:245.0},{n:"Agrotransporte Aldao S.A.",ops:71,monto:184.5},{n:"Logística don Fermín Trenque lauquen",ops:51,monto:159.9},{n:"Sosa Violeta Marina",ops:59,monto:143.8},{n:"Cuarta Raza Sa",ops:17,monto:121.7},{n:"Monti Lorena Beatriz",ops:36,monto:117.5},{n:"Taruka S. R. L.",ops:26,monto:117.1},{n:"Nicolas Emanuel Perez",ops:23,monto:75.7},{n:"Enri Claudio Marcelo",ops:31,monto:70.3},{n:"Servicios Jfdc S.R.L",ops:32,monto:68.6},{n:"Tarditi alejandro emanuel",ops:21,monto:56.3},{n:"Lucero Leonardo Fabio",ops:13,monto:43.5},{n:"Yrusta Sonia Mabel",ops:5,monto:35.5},{n:"Diaz Maria De Los Angeles",ops:14,monto:32.7},{n:"Favale Martin",ops:36,monto:32.7}]},
 };
 
 const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m"];
@@ -340,11 +342,11 @@ const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF
 let months = [], selPer = 'all', pselOpen = false, activeTab = 0, pendingImport = null;
 
 function loadMonths() {
-  try { const s = localStorage.getItem('cy_v3'); months = s ? JSON.parse(s) : [...SEED]; }
+  try { const s = localStorage.getItem('cy_v4'); months = s ? JSON.parse(s) : [...SEED]; }
   catch(e) { months = [...SEED]; }
   months.sort((a,b) => a.id.localeCompare(b.id));
 }
-function saveMonths() { localStorage.setItem('cy_v3', JSON.stringify(months)); }
+function saveMonths() { localStorage.setItem('cy_v4', JSON.stringify(months)); }
 
 // ===== HELPERS =====
 const AZ='#293380', NA='#F58F00', VE='#4CAF50', RO='#D32F2F';
@@ -842,7 +844,7 @@ function confirmImport(){
   saveMonth();
   if(imp.ranking&&imp.ranking.length){
     const idx=months.findIndex(x=>x.id===imp.id);
-    if(idx>=0){months[idx].ranking=imp.ranking;months[idx].rankingPct=imp.rankingPct;saveMonths();}
+    if(idx>=0){months[idx].ranking=imp.ranking;months[idx].rankingPct=imp.rankingPct;saveMonths();renderTab(activeTab);}
   }
   pendImport=null; cancelImport();
 }
