@@ -153,7 +153,7 @@ tbody tr:hover td:first-child{background:#e8eaf4!important}
 <div class="hdr">
   <h1>Cobra Ya</h1>
   <div class="sub">Adopción y Desempeño</div>
-  <div class="per">Julio 2025 — Abril 2026</div>
+  <div class="per" id="hdr-per">Julio 2025 — Abril 2026</div>
 </div>
 
 <div class="psel-wrap">
@@ -190,18 +190,7 @@ tbody tr:hover td:first-child{background:#e8eaf4!important}
 
   <!-- TAB 2: ADOPCIÓN -->
   <div id="tab-2" class="tab-content">
-    <div id="adop-snap"></div>
-    <div id="adop-kpis"></div>
-    <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
-    <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
-    <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
-    <div class="al ve"><strong>Los 78 de 10 meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
-    <div class="stitle mt">Top 15 Transportes por Volumen</div>
-    <div class="tw"><table>
-      <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
-      <tbody id="rank-body"></tbody>
-    </table></div>
-    <p class="nota">El Top 15 representa el 17,3% del monto total del periodo.</p>
+    <div id="adop-content"></div>
   </div>
 
   <!-- TAB 3: DATOS -->
@@ -536,28 +525,74 @@ function renderEvol() {
 // ===== ADOPCIÓN =====
 function renderAdop() {
   const sel=getSel();
-  const snap=document.getElementById('adop-snap');
-  const kpisEl=document.getElementById('adop-kpis');
+  const cont=document.getElementById('adop-content');
   const tot=months.reduce((s,m)=>s+m.nuevos,0);
-  const K10=`<div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>`;
-  const K5=`<div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>`;
-  const K1=`<div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>`;
+
   if(sel){
     const p=getPrev(sel);
-    snap.innerHTML=`<div class="kg">
-      <div class="kpi"><div class="kl">Transp. Activos</div><div class="kv">${sel.transp.toLocaleString('es-AR')}</div><div class="ks">${sub(sel.transp,p&&p.transp,p&&p.label,'Primer mes')}</div></div>
-      <div class="kpi na"><div class="kl">Nuevos Transp.</div><div class="kv">${sel.nuevos}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
-    </div><div class="dvdr"></div>
-    <div class="stitle">Fidelidad — Periodo Completo</div>`;
-    kpisEl.innerHTML=`<div class="kg">${K10}${K5}${K1}</div>`;
+    const rec=sel.transp-sel.nuevos;
+    const retPct=sel.transp>0?+((rec/sel.transp)*100).toFixed(1):0;
+    const pRec=p?p.transp-p.nuevos:null;
+    const retCls=retPct>=70?'ve':retPct>=40?'':'ro';
+    const retCmp=pRec!==null&&p.transp>0?pct(retPct,+((pRec/p.transp)*100).toFixed(1))+' vs '+p.label:'Primer mes';
+    cont.innerHTML=`
+      <div class="kg">
+        <div class="kpi"><div class="kl">Transp. Activos</div><div class="kv">${sel.transp.toLocaleString('es-AR')}</div><div class="ks">${sub(sel.transp,p&&p.transp,p&&p.label,'Primer mes')}</div></div>
+        <div class="kpi na"><div class="kl">Nuevos Transp.</div><div class="kv">${sel.nuevos}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
+      </div>
+      <div class="dvdr"></div>
+      <div class="stitle">Fidelidad — ${sel.label}</div>
+      <div class="kg">
+        <div class="kpi ve"><div class="kl">Recurrentes</div><div class="kv">${rec.toLocaleString('es-AR')}</div><div class="ks">${pRec!==null?pct(rec,pRec)+' vs '+p.label:'Primer mes'}</div></div>
+        <div class="kpi na"><div class="kl">Nuevos</div><div class="kv">${sel.nuevos.toLocaleString('es-AR')}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
+        <div class="kpi ${retCls}"><div class="kl">Tasa Retención</div><div class="kv">${retPct}%</div><div class="ks">${retCmp}</div></div>
+      </div>
+      <div class="cc"><div class="ct">Nuevos vs Recurrentes — ${sel.label}</div><canvas id="cRet"></canvas></div>
+      <div class="cc"><div class="ct">Evolución Mensual: Nuevos y Recurrentes</div><canvas id="cRetMs"></canvas></div>
+      <div class="al ve"><strong>${rec.toLocaleString('es-AR')} transportes recurrentes en ${sel.label}</strong><p>${((rec/sel.transp)*100).toFixed(1)}% del total activo ya operaba con Cobra Ya en meses anteriores.</p></div>
+      <div class="al na"><strong>${sel.nuevos.toLocaleString('es-AR')} nuevos en ${sel.label}</strong><p>${p?'Representan el '+((sel.nuevos/sel.transp)*100).toFixed(1)+'% del total de transportes activos.':'Primera cohorte del periodo.'}</p></div>
+      <div class="stitle mt">Top 15 Transportes por Volumen</div>
+      <div class="tw"><table>
+        <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
+        <tbody id="rank-body"></tbody>
+      </table></div>
+      <p class="nota">Ranking acumulado del periodo completo. El Top 15 representa el 17,3% del monto total.</p>`;
+    mk('cRet',{type:'doughnut',data:{labels:['Recurrentes','Nuevos'],datasets:[{data:[rec,sel.nuevos],backgroundColor:[VE,NA],borderWidth:0,hoverOffset:4}]},options:{responsive:true,plugins:{legend:LG,tooltip:TIP}}});
+    const L=months.map(m=>m.label);
+    const nC=months.map(m=>m.id===sel.id?NA:'rgba(245,143,0,.22)');
+    const rC=months.map(m=>m.id===sel.id?VE:'rgba(76,175,80,.22)');
+    mk('cRetMs',{type:'bar',data:{labels:L,datasets:[
+      {label:'Recurrentes',data:months.map(m=>m.transp-m.nuevos),backgroundColor:rC,stack:'s'},
+      {label:'Nuevos',data:months.map(m=>m.nuevos),backgroundColor:nC,stack:'s',borderRadius:3}
+    ]},options:{responsive:true,plugins:{legend:LG,tooltip:TIP},scales:{x:AXX,y:AXY}}});
   } else {
-    snap.innerHTML='';
-    const KU=`<div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>`;
-    kpisEl.innerHTML=`<div class="kg">${KU}${K5}${K10}${K1}</div>`;
+    cont.innerHTML=`
+      <div class="stitle">Adopción — Periodo Completo</div>
+      <div class="kg">
+        <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
+        <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>
+        <div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
+        <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>
+      </div>
+      <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
+      <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
+      <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
+      <div class="al ve"><strong>Los 78 de 10 meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
+      <div class="stitle mt">Top 15 Transportes por Volumen</div>
+      <div class="tw"><table>
+        <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
+        <tbody id="rank-body"></tbody>
+      </table></div>
+      <p class="nota">El Top 15 representa el 17,3% del monto total del periodo.</p>`;
+    mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
+    mk('cRetMs',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Monto (M$)',data:RETMS,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
   }
-
-  mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
-  mk('cRetMs',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Monto (M$)',data:RETMS,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
+  const tb=document.getElementById('rank-body');
+  RANKING.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="c"><strong>${i+1}</strong></td><td style="font-size:.70rem;max-width:110px;white-space:normal;line-height:1.3">${r.n}</td><td class="c">${r.ops}</td><td class="c">${r.m}/10</td><td class="r"><strong>${r.monto}</strong></td>`;
+    tb.appendChild(tr);
+  });
 }
 
 // ===== DATOS =====
@@ -591,15 +626,15 @@ function renderDatos() {
   mk('cEfic',{type:'line',data:{labels:L,datasets:[{label:'M$/Transp.',data:efic,borderColor:AZ,backgroundColor:'rgba(41,51,128,.1)',tension:.35,fill:true,pointBackgroundColor:colsFor(AZ,AZ0),pointRadius:5,borderWidth:2}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>v+' M',font:FNT}}}}});
 }
 
-// ===== RANKING (static) =====
-(function(){
-  const tb=document.getElementById('rank-body');
-  RANKING.forEach((r,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="c"><strong>${i+1}</strong></td><td style="font-size:.70rem;max-width:110px;white-space:normal;line-height:1.3">${r.n}</td><td class="c">${r.ops}</td><td class="c">${r.m}/10</td><td class="r"><strong>${r.monto}</strong></td>`;
-    tb.appendChild(tr);
-  });
-})();
+// ===== HEADER PERIOD =====
+const MNAMES_FULL=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function updateHdrPer(){
+  const el=document.getElementById('hdr-per');
+  if(!el||!months.length) return;
+  const first=months[0],last=months[months.length-1];
+  const [fy,fm]=first.id.split('-'),[ly,lm]=last.id.split('-');
+  el.textContent=MNAMES_FULL[parseInt(fm)-1]+' '+fy+' — '+MNAMES_FULL[parseInt(lm)-1]+' '+ly;
+}
 
 // ===== CARGAR TAB =====
 function renderCargar() {
@@ -637,7 +672,7 @@ function saveMonth() {
   const idx=months.findIndex(x=>x.id===id);
   if(idx>=0) months[idx]=m; else months.push(m);
   months.sort((a,b)=>a.id.localeCompare(b.id));
-  saveMonths(); clearForm(); renderCargar();
+  saveMonths(); clearForm(); renderCargar(); updateHdrPer();
   selPer=id; document.getElementById('psel-tag').textContent=lbl;
   renderTab(activeTab);
   alert(`✓ ${lbl} guardado.`);
@@ -657,7 +692,7 @@ function deleteMonth(id) {
   if(!confirm(`¿Eliminar ${m?m.label:id}?`)) return;
   months=months.filter(x=>x.id!==id);
   if(selPer===id){selPer='all';document.getElementById('psel-tag').textContent='Consolidado';document.getElementById('cmp-bar').style.display='none';}
-  saveMonths(); renderCargar();
+  saveMonths(); updateHdrPer(); renderCargar();
 }
 
 // ===== JSON =====
@@ -673,7 +708,7 @@ function importJSON(){
     let data=JSON.parse(raw); if(!Array.isArray(data)) data=[data];
     data.forEach(m=>{if(m.id&&m.label){const i=months.findIndex(x=>x.id===m.id);if(i>=0)months[i]=m;else months.push(m);}});
     months.sort((a,b)=>a.id.localeCompare(b.id));
-    saveMonths(); sv('imp-json',''); renderCargar(); alert('✓ Importado.');
+    saveMonths(); updateHdrPer(); sv('imp-json',''); renderCargar(); alert('✓ Importado.');
   }catch(e){alert('JSON inválido: '+e.message);}
 }
 
@@ -759,6 +794,7 @@ function cancelImport(){
 
 // ===== INIT =====
 loadMonths();
+updateHdrPer();
 renderResumen();
 renderAdop();
 
