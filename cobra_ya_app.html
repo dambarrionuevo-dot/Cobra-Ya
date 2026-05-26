@@ -451,7 +451,7 @@ function renderResCons() {
       <div class="kpi na"><div class="kl">Mejor Mes</div><div class="kv">${bestM?bestM.label:'—'}</div><div class="ks">${bestM?fmM(bestM.monto):''}</div></div>
       <div class="kpi na"><div class="kl">Mayor Comisión</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
       <div class="kpi ${crec>0?'ve':'ro'}"><div class="kl">Crecimiento</div><div class="kv"><span class="${crec>0?'pos':'neg'}">${crec>0?'+':''}${crec}%</span></div><div class="ks">Monto mensual</div></div>
-      <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${RETCNT.reduce((s,v)=>s+v,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
+      <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${months.reduce((s,m)=>s+m.nuevos,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
     </div>
     <div class="al ve"><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div>
     <div class="al na"><strong>${apPct}% de tasa de aprobación en el periodo</strong><p>De ${(tA+tP).toLocaleString('es-AR')} solicitudes totales, ${tA.toLocaleString('es-AR')} aprobadas y ${tP.toLocaleString('es-AR')} pendientes.</p></div>`;
@@ -538,7 +538,7 @@ function renderAdop() {
   const sel=getSel();
   const snap=document.getElementById('adop-snap');
   const kpisEl=document.getElementById('adop-kpis');
-  const tot=RETCNT.reduce((s,v)=>s+v,0);
+  const tot=months.reduce((s,m)=>s+m.nuevos,0);
   const K10=`<div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>`;
   const K5=`<div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>`;
   const K1=`<div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>`;
