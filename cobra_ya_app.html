@@ -301,22 +301,35 @@ const SEED = [
 ];
 
 const RANKING = [
-  {n:"Caminos Al Puerto S.R.L.",ops:348,m:10,monto:"$1.212 M"},
-  {n:"Logística Don Fermín Trenque Lauquen",ops:351,m:10,monto:"$507 M"},
-  {n:"Rodriguez Ramiro Gabriel",ops:102,m:8,monto:"$439 M"},
-  {n:"Transportadora La Fortaleza S.A.S.",ops:112,m:8,monto:"$219 M"},
-  {n:"Ramos Fernando Abel",ops:16,m:7,monto:"$213 M"},
-  {n:"Taruka S. R. L.",ops:103,m:10,monto:"$208 M"},
-  {n:"Carbajal Jose Miguel",ops:83,m:10,monto:"$192 M"},
-  {n:"Monti Lorena Beatriz",ops:91,m:5,monto:"$190 M"},
-  {n:"Trans-Cereal Sociedad Anonima",ops:209,m:6,monto:"$183 M"},
-  {n:"Enri Claudio Marcelo",ops:90,m:5,monto:"$176 M"},
-  {n:"Hein Joaquin Nicolas",ops:172,m:10,monto:"$173 M"},
-  {n:"Servicios Jfdc S.R.L",ops:109,m:8,monto:"$172 M"},
-  {n:"Flores Maria Teresa",ops:47,m:4,monto:"$153 M"},
-  {n:"Servera Matias Hernan",ops:114,m:10,monto:"$152 M"},
-  {n:"Cuarta Raza Sa",ops:17,m:2,monto:"$150 M"},
+  {n:"Caminos Al Puerto S.R.L.",ops:385,m:10,monto:"$1.300,8 M"},
+  {n:"Logística don Fermín Trenque lauquen",ops:414,m:10,monto:"$606,8 M"},
+  {n:"Rodriguez Ramiro Gabriel",ops:117,m:8,monto:"$546,4 M"},
+  {n:"Transportadora La Fortaleza S.A.S.",ops:122,m:8,monto:"$237,0 M"},
+  {n:"Servicios Jfdc S.R.L",ops:131,m:8,monto:"$234,0 M"},
+  {n:"Carbajal Jose Miguel",ops:103,m:10,monto:"$228,0 M"},
+  {n:"Taruka S. R. L.",ops:109,m:10,monto:"$216,4 M"},
+  {n:"Hein Joaquin Nicolas",ops:211,m:10,monto:"$215,1 M"},
+  {n:"Del Canto Juan Francisco",ops:136,m:8,monto:"$214,8 M"},
+  {n:"Ramos Fernando Abel",ops:16,m:7,monto:"$212,5 M"},
+  {n:"Monti Lorena Beatriz",ops:96,m:5,monto:"$191,2 M"},
+  {n:"Trans-Cereal Sociedad Anonima",ops:212,m:6,monto:"$186,6 M"},
+  {n:"Enri Claudio Marcelo",ops:90,m:5,monto:"$175,6 M"},
+  {n:"Mv Transporte S.A.S",ops:28,m:3,monto:"$175,0 M"},
+  {n:"Adal S.R.L.",ops:43,m:7,monto:"$174,9 M"},
 ];
+const RANKING_NOTA_PCT=18.6;
+const RANKING_MES={
+  "2025-07":{pct:32.8,items:[{n:"Caminos Al Puerto S.R.L.",ops:71,monto:223.3},{n:"Transportadora La Fortaleza S.A.S.",ops:51,monto:141.1},{n:"Logística don Fermín Trenque lauquen",ops:49,monto:92.5},{n:"Cuarta Raza Sa",ops:7,monto:72.5},{n:"Adal S.R.L.",ops:9,monto:53.8},{n:"Transporte Picca Srl",ops:8,monto:46.7},{n:"Martinez David Osvaldo",ops:32,monto:39.2},{n:"Trans-Cereal Sociedad Anonima",ops:23,monto:24.9},{n:"Servera Matias Hernan",ops:20,monto:24.8},{n:"Insumos Agropecuarios Serrano S.R.L.",ops:47,monto:24.6},{n:"Heredia Cristian Edison",ops:5,monto:20.0},{n:"Transporte Ramon Quiroga Sociedad Anonima",ops:7,monto:18.7},{n:"Prandi Marcelo Jesus Antonio",ops:30,monto:18.4},{n:"Ceratti Antonio Aristides",ops:7,monto:17.2},{n:"Taruka S. R. L.",ops:6,monto:17.1}]},
+  "2025-08":{pct:34.2,items:[{n:"Caminos Al Puerto S.R.L.",ops:48,monto:119.7},{n:"Logística don Fermín Trenque lauquen",ops:62,monto:105.9},{n:"Mv Transporte S.A.S",ops:10,monto:86.1},{n:"Adal S.R.L.",ops:21,monto:84.1},{n:"Trip On Time Sas",ops:7,monto:74.7},{n:"Transportadora La Fortaleza S.A.S.",ops:21,monto:32.4},{n:"Galfrascoli Denis Juan Jose",ops:25,monto:31.6},{n:"Mm Logistica Sas",ops:5,monto:30.0},{n:"Servera Matias Hernan",ops:17,monto:28.4},{n:"Hein Joaquin Nicolas",ops:13,monto:25.8},{n:"Martinez David Osvaldo",ops:21,monto:23.3},{n:"Fernandez Parra Leonel",ops:4,monto:22.0},{n:"Prandi Marcelo Jesus Antonio",ops:27,monto:21.7},{n:"Carbajal Jose Miguel",ops:9,monto:21.0},{n:"Jonathan Bernardo Pereyra",ops:9,monto:19.5}]},
+  "2025-09":{pct:31.6,items:[{n:"Rodriguez Ramiro Gabriel",ops:39,monto:220.2},{n:"Caminos Al Puerto S.R.L.",ops:19,monto:62.6},{n:"Logística don Fermín Trenque lauquen",ops:43,monto:59.8},{n:"Trip On Time Sas",ops:7,monto:28.0},{n:"Fantoni Pedro Francisco",ops:6,monto:24.1},{n:"Hein Joaquin Nicolas",ops:22,monto:23.9},{n:"Heredia Cristian Edison",ops:9,monto:21.4},{n:"Navarro Cesar Ariel",ops:18,monto:18.8},{n:"Gaitan Camilo Catriel Alberto",ops:18,monto:18.3},{n:"Mv Transporte S.A.S",ops:4,monto:17.1},{n:"Servera Matias Hernan",ops:8,monto:16.2},{n:"Mm Logistica Sas",ops:5,monto:15.8},{n:"Alvarez Rocio Micaela",ops:4,monto:15.3},{n:"Miretti Pablo Ramon",ops:5,monto:15.1},{n:"Servicios Agropecuarios Gallardo S.R.L.",ops:2,monto:15.0}]},
+  "2025-10":{pct:27.1,items:[{n:"Mv Transporte S.A.S",ops:14,monto:71.8},{n:"Mm Logistica Sas",ops:14,monto:60.0},{n:"Caminos Al Puerto S.R.L.",ops:21,monto:56.3},{n:"Logística don Fermín Trenque lauquen",ops:34,monto:45.9},{n:"Servicios Jfdc S.R.L",ops:15,monto:32.3},{n:"El Lalo Transporte Y Logistica S.R.L.",ops:33,monto:31.3},{n:"Transportistas Unidos De San Gregorio Asociacion Civil",ops:3,monto:30.8},{n:"Cardozo Claudio Ariel",ops:3,monto:23.7},{n:"Servicios Agropecuarios Gallardo S.R.L.",ops:2,monto:23.0},{n:"Servera Matias Hernan",ops:17,monto:22.7},{n:"Trip On Time Sas",ops:6,monto:22.5},{n:"Sergio Miguel Martinez",ops:5,monto:22.3},{n:"Hein Joaquin Nicolas",ops:17,monto:21.2},{n:"Galfrascoli Denis Juan Jose",ops:17,monto:21.0},{n:"Transportadora La Fortaleza S.A.S.",ops:11,monto:19.1}]},
+  "2025-11":{pct:20.7,items:[{n:"Logística don Fermín Trenque lauquen",ops:25,monto:46.1},{n:"Trans-Cereal Sociedad Anonima",ops:36,monto:44.0},{n:"Del Canto Juan Francisco",ops:23,monto:42.0},{n:"Ramos Fernando Abel",ops:2,monto:33.5},{n:"Servicios Jfdc S.R.L",ops:20,monto:32.1},{n:"Cardozo Claudio Ariel",ops:3,monto:27.8},{n:"Monti Lorena Beatriz",ops:24,monto:26.9},{n:"Hein Joaquin Nicolas",ops:31,monto:25.2},{n:"Servera Matias Hernan",ops:13,monto:23.6},{n:"Carbajal Jose Miguel",ops:9,monto:22.4},{n:"Fabrizio Lorenzo Guillermo",ops:7,monto:21.2},{n:"Prandi Marcelo Jesus Antonio",ops:30,monto:20.2},{n:"Servicios Agropecuarios Gallardo S.R.L.",ops:2,monto:20.2},{n:"Frencia Luis Alberto",ops:11,monto:19.8},{n:"Transportistas Unidos De San Gregorio Asociacion Civil",ops:3,monto:19.5}]},
+  "2025-12":{pct:30.2,items:[{n:"Rodriguez Ramiro Gabriel",ops:28,monto:173.1},{n:"Servicios Jfdc S.R.L",ops:48,monto:110.7},{n:"Del Canto Juan Francisco",ops:70,monto:107.5},{n:"Caminos Al Puerto S.R.L.",ops:38,monto:98.9},{n:"Logística don Fermín Trenque lauquen",ops:59,monto:76.4},{n:"Monti Lorena Beatriz",ops:33,monto:64.5},{n:"Carbajal Jose Miguel",ops:14,monto:58.5},{n:"Taruka S. R. L.",ops:33,monto:54.3},{n:"Trans-Cereal Sociedad Anonima",ops:50,monto:48.6},{n:"Fantoni Pedro Francisco",ops:9,monto:38.6},{n:"Ramos Fernando Abel",ops:5,monto:35.2},{n:"Transportistas Unidos De San Gregorio Asociacion Civil",ops:5,monto:33.5},{n:"Yrusta Sonia Mabel",ops:6,monto:30.1},{n:"Banegas Tomas",ops:12,monto:25.7},{n:"Ceratti Antonio Aristides",ops:8,monto:22.2}]},
+  "2026-01":{pct:20.0,items:[{n:"Caminos Al Puerto S.R.L.",ops:25,monto:81.6},{n:"Rodriguez Ramiro Gabriel",ops:17,monto:50.7},{n:"Carbajal Jose Miguel",ops:18,monto:45.4},{n:"Yrusta Sonia Mabel",ops:5,monto:34.1},{n:"Logística don Fermín Trenque lauquen",ops:24,monto:22.4},{n:"Hein Joaquin Nicolas",ops:23,monto:21.7},{n:"Ramos Fernando Abel",ops:2,monto:21.6},{n:"Fantoni Pedro Francisco",ops:9,monto:21.1},{n:"Enri Claudio Marcelo",ops:14,monto:19.3},{n:"Paterlini Jose Luis",ops:2,monto:18.5},{n:"Godoy Omar Andres",ops:7,monto:17.8},{n:"Banegas Tomas",ops:10,monto:17.7},{n:"Echeverria Lucas Emilio",ops:8,monto:16.8},{n:"Mendoza Nestor Omar",ops:26,monto:14.3},{n:"Toben S.A.S.",ops:17,monto:13.8}]},
+  "2026-02":{pct:20.0,items:[{n:"Caminos Al Puerto S.R.L.",ops:43,monto:92.9},{n:"Rodriguez Ramiro Gabriel",ops:18,monto:56.9},{n:"Carbajal Jose Miguel",ops:19,monto:36.5},{n:"Ramos Fernando Abel",ops:2,monto:33.1},{n:"Flores Maria Teresa",ops:14,monto:31.8},{n:"Logística don Fermín Trenque lauquen",ops:32,monto:27.9},{n:"Hein Joaquin Nicolas",ops:30,monto:25.9},{n:"Logistica Brian S. R. L.",ops:16,monto:25.1},{n:"Francisco Joaquin Guerrero",ops:9,monto:20.4},{n:"Marcelo Alejandro Vallozzi",ops:28,monto:19.5},{n:"Enri Claudio Marcelo",ops:7,monto:19.0},{n:"Lavaselli Jose Luis",ops:10,monto:18.3},{n:"Cimini German Esteban",ops:9,monto:16.7},{n:"Gaitan Camilo Catriel Alberto",ops:9,monto:16.2},{n:"Mariscal Guido Khalil",ops:7,monto:16.1}]},
+  "2026-03":{pct:20.8,items:[{n:"Caminos Al Puerto S.R.L.",ops:67,monto:198.0},{n:"Flores Maria Teresa",ops:23,monto:73.4},{n:"Enri Claudio Marcelo",ops:25,monto:68.0},{n:"Bertotto Jose Luis",ops:16,monto:66.4},{n:"Logística don Fermín Trenque lauquen",ops:47,monto:63.0},{n:"Cortell Juan Carlos Ariel",ops:25,monto:42.9},{n:"Trans-Cereal Sociedad Anonima",ops:74,monto:41.3},{n:"Ramos Fernando Abel",ops:2,monto:34.2},{n:"Servicios Jfdc S.R.L",ops:21,monto:32.6},{n:"Taruka S. R. L.",ops:10,monto:27.0},{n:"Monti Lorena Beatriz",ops:20,monto:24.2},{n:"Villavicencio Luciano Andres",ops:39,monto:24.2},{n:"Baute Cristian Dardo",ops:21,monto:23.5},{n:"Rondan Ruben Alberto",ops:21,monto:22.8},{n:"Betique Cesar Sebastian",ops:13,monto:22.3}]},
+  "2026-04":{pct:24.6,items:[{n:"Caminos Al Puerto S.R.L.",ops:51,monto:362.8},{n:"Cuarta Raza Sa",ops:12,monto:85.2},{n:"Agrotransporte Aldao S.A.",ops:33,monto:84.3},{n:"Taruka S. R. L.",ops:15,monto:67.7},{n:"Sosa Violeta Marina",ops:32,monto:67.4},{n:"Logística don Fermín Trenque lauquen",ops:39,monto:66.8},{n:"Heredia Walter E Hijos S.A.S.",ops:24,monto:62.7},{n:"Monti Lorena Beatriz",ops:17,monto:62.4},{n:"Enri Claudio Marcelo",ops:16,monto:58.1},{n:"Flores Maria Teresa",ops:10,monto:50.7},{n:"Ramos Fernando Abel",ops:2,monto:42.1},{n:"Lucero Leonardo Fabio",ops:22,monto:40.3},{n:"Buldain Cristian Daniel",ops:12,monto:35.6},{n:"Cortell Juan Carlos Ariel",ops:19,monto:31.0},{n:"Transporte Juarez",ops:21,monto:44.4}]},
+};
 
 const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m"];
 const RETCNT=[796,376,225,159,141,101,101,80,93,78];
@@ -535,6 +548,8 @@ function renderAdop() {
     const pRec=p?p.transp-p.nuevos:null;
     const retCls=retPct>=70?'ve':retPct>=40?'':'ro';
     const retCmp=pRec!==null&&p.transp>0?pct(retPct,+((pRec/p.transp)*100).toFixed(1))+' vs '+p.label:'Primer mes';
+    const rankData=sel.ranking||(RANKING_MES[sel.id]?RANKING_MES[sel.id].items:null);
+    const rankPct=sel.rankingPct!==undefined?sel.rankingPct:(RANKING_MES[sel.id]?RANKING_MES[sel.id].pct:null);
     cont.innerHTML=`
       <div class="kg">
         <div class="kpi"><div class="kl">Transp. Activos</div><div class="kv">${sel.transp.toLocaleString('es-AR')}</div><div class="ks">${sub(sel.transp,p&&p.transp,p&&p.label,'Primer mes')}</div></div>
@@ -551,13 +566,13 @@ function renderAdop() {
       <div class="cc"><div class="ct">Evolución Mensual: Nuevos y Recurrentes</div><canvas id="cRetMs"></canvas></div>
       <div class="al ve"><strong>${rec.toLocaleString('es-AR')} transportes recurrentes en ${sel.label}</strong><p>${((rec/sel.transp)*100).toFixed(1)}% del total activo ya operaba con Cobra Ya en meses anteriores.</p></div>
       <div class="al na"><strong>${sel.nuevos.toLocaleString('es-AR')} nuevos en ${sel.label}</strong><p>${p?'Representan el '+((sel.nuevos/sel.transp)*100).toFixed(1)+'% del total de transportes activos.':'Primera cohorte del periodo.'}</p></div>
-      <div class="stitle mt">Top 15 Transportes por Volumen</div>
+      <div class="stitle mt">Top 15 Transportes — ${sel.label}</div>
       <div class="tw"><table>
-        <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
+        <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="r">Monto (M$)</th></tr></thead>
         <tbody id="rank-body"></tbody>
       </table></div>
-      <p class="nota">Ranking acumulado del periodo completo. El Top 15 representa el 17,3% del monto total.</p>`;
-    mk('cRet',{type:'doughnut',data:{labels:['Recurrentes','Nuevos'],datasets:[{data:[rec,sel.nuevos],backgroundColor:[VE,NA],borderWidth:0,hoverOffset:4}]},options:{responsive:true,plugins:{legend:LG,tooltip:TIP}}});
+      <p class="nota">${rankPct?'El Top 15 representa el '+rankPct+'% del monto de '+sel.label+'.':'Top 15 por monto del mes seleccionado.'}</p>`;
+    mk('cRet',{type:'bar',data:{labels:['Recurrentes','Nuevos'],datasets:[{data:[rec,sel.nuevos],backgroundColor:[VE,NA],borderRadius:6,borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:{...AXX,ticks:{callback:v=>v.toLocaleString('es-AR'),font:FNT}},y:{...AXY,ticks:{color:'#444',font:{...FNT,size:11,weight:'700'}}}}}});
     const L=months.map(m=>m.label);
     const nC=months.map(m=>m.id===sel.id?NA:'rgba(245,143,0,.22)');
     const rC=months.map(m=>m.id===sel.id?VE:'rgba(76,175,80,.22)');
@@ -583,16 +598,26 @@ function renderAdop() {
         <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
         <tbody id="rank-body"></tbody>
       </table></div>
-      <p class="nota">El Top 15 representa el 17,3% del monto total del periodo.</p>`;
+      <p class="nota">El Top 15 representa el ${RANKING_NOTA_PCT}% del monto total del periodo.</p>`;
     mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
     mk('cRetMs',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Monto (M$)',data:RETMS,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
   }
   const tb=document.getElementById('rank-body');
-  RANKING.forEach((r,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="c"><strong>${i+1}</strong></td><td style="font-size:.70rem;max-width:110px;white-space:normal;line-height:1.3">${r.n}</td><td class="c">${r.ops}</td><td class="c">${r.m}/10</td><td class="r"><strong>${r.monto}</strong></td>`;
-    tb.appendChild(tr);
-  });
+  if(sel){
+    const rankData=sel.ranking||(RANKING_MES[sel.id]?RANKING_MES[sel.id].items:[]);
+    rankData.forEach((r,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td class="c"><strong>${i+1}</strong></td><td style="font-size:.70rem;max-width:130px;white-space:normal;line-height:1.3">${r.n}</td><td class="c">${r.ops}</td><td class="r"><strong>$${r.monto.toLocaleString('es-AR')} M</strong></td>`;
+      tb.appendChild(tr);
+    });
+    if(!rankData.length) tb.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:16px;color:var(--mu)">Sin datos de ranking para este mes</td></tr>`;
+  } else {
+    RANKING.forEach((r,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td class="c"><strong>${i+1}</strong></td><td style="font-size:.70rem;max-width:110px;white-space:normal;line-height:1.3">${r.n}</td><td class="c">${r.ops}</td><td class="c">${r.m}/10</td><td class="r"><strong>${r.monto}</strong></td>`;
+      tb.appendChild(tr);
+    });
+  }
 }
 
 // ===== DATOS =====
@@ -750,18 +775,33 @@ function parseCYExcel(wb,fi) {
   }
   if(hRow<0) return null;
   const ci=(rx)=>hdrs.findIndex(h=>rx.test(h));
-  const cImp=ci(/importe|monto(?!.*comis)/), cCom=ci(/comis|cargo|fee/), cEst=ci(/estado/), cCuit=ci(/cuit|empresa/);
+  const cImp=ci(/importe|monto(?!.*comis)/), cCom=ci(/comis|cargo|fee/), cEst=ci(/estado/);
+  const cEmpC=ci(/cuit_empresa/), cEmpN=ci(/nombre_empresa/);
+  const cCuit=cEmpC>=0?cEmpC:ci(/cuit|empresa/);
+  const cNomEmp=cEmpN>=0?cEmpN:ci(/nombre/);
   let sumImp=0,sumCom=0,nA=0,nP=0; const cuits=new Set();
+  const empData={};
+  const toN=v=>parseFloat(String(v).replace(/[^0-9.-]/g,''))||0;
   for(let i=hRow+1;i<rows.length;i++){
     const r=rows[i]; if(!r.length||r.every(c=>c==='')) continue;
-    const toN=v=>parseFloat(String(v).replace(/[^0-9.-]/g,''))||0;
     if(cImp>=0) sumImp+=toN(r[cImp]);
     if(cCom>=0) sumCom+=toN(r[cCom]);
     if(cEst>=0){const e=String(r[cEst]).toLowerCase();/aprob/.test(e)?nA++:/pend/.test(e)?nP++:0;}
-    if(cCuit>=0&&r[cCuit]) cuits.add(String(r[cCuit]).trim());
+    if(cCuit>=0&&r[cCuit]){
+      const ck=String(r[cCuit]).trim();
+      cuits.add(ck);
+      const en=cNomEmp>=0&&r[cNomEmp]?String(r[cNomEmp]).trim():ck;
+      if(!empData[ck]) empData[ck]={n:en,monto:0,ops:0};
+      empData[ck].monto+=cImp>=0?toN(r[cImp]):0;
+      empData[ck].ops++;
+    }
   }
+  const empArr=Object.values(empData).sort((a,b)=>b.monto-a.monto).slice(0,15);
+  const empTotal=Object.values(empData).reduce((s,e)=>s+e.monto,0);
+  const ranking=empArr.map(e=>({n:e.n,ops:e.ops,monto:Math.round(e.monto/1e5)/10}));
+  const rankingPct=empTotal>0?Math.round(empArr.reduce((s,e)=>s+e.monto,0)/empTotal*1000)/10:null;
   const info=fi||{id:'',label:''};
-  return {id:info.id||'',label:info.label||'',monto:Math.round(sumImp/1e6),cobrado:Math.round(sumCom/1e6),apro:nA||0,pend:nP||0,transp:cuits.size||0,nuevos:0};
+  return {id:info.id||'',label:info.label||'',monto:Math.round(sumImp/1e6),cobrado:Math.round(sumCom/1e6),apro:nA||0,pend:nP||0,transp:cuits.size||0,nuevos:0,ranking,rankingPct};
 }
 
 function showPreview(m) {
@@ -782,7 +822,13 @@ function showPreview(m) {
 
 function confirmImport(){
   if(!pendImport||!pendImport.id){alert('Completá el período en el formulario y usá "Guardar mes".');return;}
-  saveMonth(); pendImport=null; cancelImport();
+  const imp=pendImport;
+  saveMonth();
+  if(imp.ranking&&imp.ranking.length){
+    const idx=months.findIndex(x=>x.id===imp.id);
+    if(idx>=0){months[idx].ranking=imp.ranking;months[idx].rankingPct=imp.rankingPct;saveMonths();}
+  }
+  pendImport=null; cancelImport();
 }
 function cancelImport(){
   pendImport=null; document.getElementById('prev-box').style.display='none';
