@@ -590,13 +590,13 @@ function renderAdop() {
       <div class="kg">
         <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
         <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>
-        <div class="kpi ve"><div class="kl">Usaron los 10 meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
+        <div class="kpi ve"><div class="kl">Usaron los ${months.length} meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
         <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>
       </div>
       <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
       <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
       <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
-      <div class="al ve"><strong>Los 78 de 10 meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
+      <div class="al ve"><strong>Los 78 de ${months.length} meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
       <div class="stitle mt">Top 15 Transportes por Volumen</div>
       <div class="tw"><table>
         <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
