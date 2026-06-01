@@ -339,6 +339,13 @@ const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m","1
 const RETCNT=[868,418,262,178,129,116,100,85,70,80,102];
 const RETMS=[1563,1763,2616,2414,1794,3437,2292,2177,2923,2771,8305];
 const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50"];
+const ADOPCION_MKT={
+  "2026-01":{flete:16269,pct:13.4},
+  "2026-02":{flete:12927,pct:17.9},
+  "2026-03":{flete:15841,pct:24.0},
+  "2026-04":{flete:21053,pct:23.4},
+  "2026-05":{flete:29176,pct:23.7},
+};
 
 // ===== STATE =====
 let months = [], selPer = 'all', pselOpen = false, activeTab = 0, pendingImport = null;
@@ -548,6 +555,8 @@ function renderAdop() {
   if(sel){
     const p=getPrev(sel);
     const rec=sel.transp-sel.nuevos;
+    const mktD=ADOPCION_MKT[sel.id];
+    const mktPrev=p?ADOPCION_MKT[p.id]:null;
     const retPct=sel.transp>0?+((rec/sel.transp)*100).toFixed(1):0;
     const pRec=p?p.transp-p.nuevos:null;
     const retCls=retPct>=70?'ve':retPct>=40?'':'ro';
@@ -566,6 +575,12 @@ function renderAdop() {
         <div class="kpi na"><div class="kl">Nuevos</div><div class="kv">${sel.nuevos.toLocaleString('es-AR')}</div><div class="ks">${sub(sel.nuevos,p&&p.nuevos,p&&p.label,'Todos nuevos')}</div></div>
         <div class="kpi ${retCls}"><div class="kl">Tasa Retención</div><div class="kv">${retPct}%</div><div class="ks">${retCmp}</div></div>
       </div>
+      ${mktD?`<div class="dvdr"></div>
+      <div class="stitle">Penetración del Mercado — ${sel.label}</div>
+      <div class="kg">
+        <div class="kpi"><div class="kl">% del Flete Total</div><div class="kv">${mktD.pct}%</div><div class="ks">sobre $${mktD.flete.toLocaleString('es-AR')} M flete mercado</div></div>
+        ${mktPrev?`<div class="kpi ${mktD.pct>mktPrev.pct?'ve':'ro'}"><div class="kl">vs ${p.label}</div><div class="kv">${mktD.pct>mktPrev.pct?'+':''}${Math.round((mktD.pct-mktPrev.pct)*10)/10}pp</div><div class="ks">${mktPrev.pct}% en ${p.label}</div></div>`:''}
+      </div>`:''}
       <div class="cc"><div class="ct">Nuevos vs Recurrentes — ${sel.label}</div><canvas id="cRet"></canvas></div>
       <div class="cc"><div class="ct">Evolución Mensual: Nuevos y Recurrentes</div><canvas id="cRetMs"></canvas></div>
       <div class="al ve"><strong>${rec.toLocaleString('es-AR')} transportes recurrentes en ${sel.label}</strong><p>${((rec/sel.transp)*100).toFixed(1)}% del total activo ya operaba con Cobra Ya en meses anteriores.</p></div>
@@ -585,6 +600,9 @@ function renderAdop() {
       {label:'Nuevos',data:months.map(m=>m.nuevos),backgroundColor:nC,stack:'s',borderRadius:3}
     ]},options:{responsive:true,plugins:{legend:LG,tooltip:TIP},scales:{x:AXX,y:AXY}}});
   } else {
+    const adMeses=months.filter(m=>ADOPCION_MKT[m.id]);
+    const adLast=adMeses.length?adMeses[adMeses.length-1]:null;
+    const adFirst=adMeses.length?adMeses[0]:null;
     cont.innerHTML=`
       <div class="stitle">Adopción — Periodo Completo</div>
       <div class="kg">
@@ -593,6 +611,13 @@ function renderAdop() {
         <div class="kpi ve"><div class="kl">Usaron los ${months.length} meses</div><div class="kv">${RETCNT[months.length-1].toLocaleString('es-AR')}</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
         <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">${RETCNT[0].toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT[0]/tot*1000)/10}% del total</div></div>
       </div>
+      ${adLast?`<div class="dvdr"></div>
+      <div class="stitle">Penetración del Mercado de Fletes</div>
+      <div class="kg">
+        <div class="kpi"><div class="kl">% del Flete — ${adLast.label}</div><div class="kv">${ADOPCION_MKT[adLast.id].pct}%</div><div class="ks">${adMeses.length} meses con dato</div></div>
+        <div class="kpi ve"><div class="kl">Evolución</div><div class="kv">+${Math.round((ADOPCION_MKT[adLast.id].pct-ADOPCION_MKT[adFirst.id].pct)*10)/10}pp</div><div class="ks">${ADOPCION_MKT[adFirst.id].pct}% → ${ADOPCION_MKT[adLast.id].pct}% (${adFirst.label}→${adLast.label})</div></div>
+      </div>
+      <div class="cc"><div class="ct">% del Flete Total Pagado por Mes</div><canvas id="cAdop"></canvas></div>`:''}
       <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
       <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
       <div class="al na"><strong>${RETCNT[0]} transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
@@ -605,6 +630,7 @@ function renderAdop() {
       <p class="nota">El Top 15 representa el ${RANKING_NOTA_PCT}% del monto total del periodo.</p>`;
     mk('cRet',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Transportes',data:RETCNT,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
     mk('cRetMs',{type:'bar',data:{labels:RETLBLS,datasets:[{label:'Monto (M$)',data:RETMS,backgroundColor:RETCOL,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:TIP},scales:{x:AXX,y:AXY}}});
+    if(adLast) mk('cAdop',{type:'line',data:{labels:adMeses.map(m=>m.label),datasets:[{label:'% del flete',data:adMeses.map(m=>ADOPCION_MKT[m.id].pct),borderColor:'rgba(41,51,128,1)',backgroundColor:'rgba(41,51,128,.1)',fill:true,tension:.3,pointRadius:5,pointBackgroundColor:'rgba(41,51,128,1)'}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>c.parsed.y+'%'}}},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>v+'%',font:FNT}}}}});
   }
   const tb=document.getElementById('rank-body');
   if(sel){
