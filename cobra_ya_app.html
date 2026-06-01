@@ -335,10 +335,10 @@ const RANKING_MES={
   "2026-05":{pct:27.4,items:[{n:"CAMINOS AL PUERTO S.R.L.",ops:77,monto:320.0},{n:"Logística don Fermín Trenque lauquen",ops:75,monto:237.1},{n:"AGROTRANSPORTE ALDAO S.A.",ops:94,monto:218.5},{n:"TARUKA S. R. L.",ops:37,monto:155.7},{n:"SOSA VIOLETA MARINA",ops:59,monto:143.8},{n:"MONTI LORENA BEATRIZ",ops:40,monto:139.3},{n:"CUARTA RAZA SA",ops:19,monto:124.3},{n:"SERVICIOS JFDC S.R.L",ops:51,monto:113.6},{n:"ENRI CLAUDIO MARCELO",ops:36,monto:77.0},{n:"Tarditi alejandro emanuel",ops:21,monto:56.3},{n:"HEREDIA WALTER E HIJOS S.A.S.",ops:25,monto:46.5},{n:"LUCERO LEONARDO FABIO",ops:15,monto:45.0},{n:"YRUSTA SONIA MABEL",ops:6,monto:43.2},{n:"KURZ JAVIER GERMAN",ops:40,monto:40.7},{n:"DIAZ MARIA DE LOS ANGELES",ops:15,monto:35.5}]},
 };
 
-const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m"];
-const RETCNT=[796,376,225,159,141,101,101,80,93,78];
-const RETMS=[1326,1776,1609,2024,2561,1608,2362,2568,2832,5565];
-const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50"];
+const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m","11 m"];
+const RETCNT=[868,418,262,178,129,116,100,85,70,80,102];
+const RETMS=[1563,1763,2616,2414,1794,3437,2292,2177,2923,2771,8305];
+const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50"];
 
 // ===== STATE =====
 let months = [], selPer = 'all', pselOpen = false, activeTab = 0, pendingImport = null;
@@ -589,14 +589,14 @@ function renderAdop() {
       <div class="stitle">Adopción — Periodo Completo</div>
       <div class="kg">
         <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
-        <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">594</div><div class="ks">27,6% del total</div></div>
-        <div class="kpi ve"><div class="kl">Usaron los ${months.length} meses</div><div class="kv">78</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
-        <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">796</div><div class="ks">37,0% del total</div></div>
+        <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">${RETCNT.slice(4).reduce((a,b)=>a+b,0).toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT.slice(4).reduce((a,b)=>a+b,0)/tot*1000)/10}% del total</div></div>
+        <div class="kpi ve"><div class="kl">Usaron los ${months.length} meses</div><div class="kv">${RETCNT[months.length-1].toLocaleString('es-AR')}</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
+        <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">${RETCNT[0].toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT[0]/tot*1000)/10}% del total</div></div>
       </div>
       <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
       <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
-      <div class="al na"><strong>796 transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
-      <div class="al ve"><strong>Los 78 de ${months.length} meses generan $5.565 M (22,1% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
+      <div class="al na"><strong>${RETCNT[0]} transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
+      <div class="al ve"><strong>Los ${RETCNT[months.length-1]} de ${months.length} meses generan $${RETMS[months.length-1].toLocaleString('es-AR')} M (${Math.round(RETMS[months.length-1]/RETMS.reduce((a,b)=>a+b,0)*1000)/10}% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
       <div class="stitle mt">Top 15 Transportes por Volumen</div>
       <div class="tw"><table>
         <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
