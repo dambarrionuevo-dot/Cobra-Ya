@@ -24,6 +24,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;co
 .hdr h1{font-size:1.6rem;font-weight:800;letter-spacing:-.5px}
 .hdr .sub{font-size:.75rem;color:var(--na);font-weight:600;margin-top:2px}
 .hdr .per{display:inline-block;margin-top:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:4px 14px;font-size:.75rem}
+.hdr-top{display:flex;align-items:flex-start;justify-content:space-between}
+.hdr-acts{display:flex;gap:8px}
+.hdr-btn{width:36px;height:36px;border-radius:10px;border:none;background:rgba(255,255,255,.15);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0}
+.hdr-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* PERIOD SELECTOR */
 .psel-wrap{flex-shrink:0;background:#fff;box-shadow:0 2px 8px rgba(41,51,128,.08)}
@@ -59,16 +63,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;co
 
 /* KPI */
 .kg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.kg1{grid-template-columns:1fr}
-.kpi{background:linear-gradient(145deg,#fff 0%,#f5f6fe 100%);border-radius:14px;padding:14px 14px 12px;border-top:3.5px solid var(--az);box-shadow:0 2px 8px rgba(41,51,128,.07);transition:transform .1s,box-shadow .1s}
-.kpi.na{border-top-color:var(--na);background:linear-gradient(145deg,#fff 0%,#fff8ee 100%)}
-.kpi.ve{border-top-color:var(--ve);background:linear-gradient(145deg,#fff 0%,#f3fbf3 100%)}
-.kpi.ro{border-top-color:var(--ro);background:linear-gradient(145deg,#fff 0%,#fff2f2 100%)}
+.kg1{grid-template-columns:1fr}.kg3{grid-template-columns:1fr 1fr 1fr}
+.kpi{background:#fff;border-radius:14px;padding:14px 14px 12px;box-shadow:0 2px 8px rgba(41,51,128,.07);transition:transform .1s,box-shadow .1s}
+.kpi.na{background:#fff}.kpi.ve{background:#fff}.kpi.ro{background:#fff}
 .kpi:active{transform:scale(.983);box-shadow:0 1px 4px rgba(41,51,128,.06)}
 .kl{font-size:.62rem;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);margin-bottom:5px}
 .kv{font-size:1.4rem;font-weight:800;color:var(--az);line-height:1}
 .kpi.na .kv{color:var(--na)}.kpi.ve .kv{color:var(--ve)}.kpi.ro .kv{color:var(--ro)}
 .ks{font-size:.68rem;color:var(--mu);margin-top:5px;min-height:14px}
+.kico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;flex-shrink:0}
+.kico svg{width:20px;height:20px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kico.az{background:var(--az)}.kico.na{background:var(--na)}.kico.ve{background:var(--ve)}.kico.ro{background:var(--ro)}
+.kico.az-l{background:rgba(41,51,128,.1)}.kico.na-l{background:rgba(245,143,0,.1)}.kico.ve-l{background:rgba(76,175,80,.1)}.kico.ro-l{background:rgba(211,47,47,.1)}
+.kico.az svg,.kico.na svg,.kico.ve svg,.kico.ro svg{stroke:#fff}
+.kico.az-l svg{stroke:var(--az)}.kico.na-l svg{stroke:var(--na)}.kico.ve-l svg{stroke:var(--ve)}.kico.ro-l svg{stroke:var(--ro)}
+.kg3 .kpi{padding:12px 10px 10px}.kg3 .kv{font-size:1.05rem}
+.stitle-res{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--tx);margin-bottom:12px;display:block}
 
 /* ALERT */
 .al{padding:12px 14px;border-radius:10px;margin-bottom:10px;border-left:4px solid;background:#fff;box-shadow:0 2px 8px rgba(41,51,128,.07)}
@@ -153,8 +163,16 @@ tbody tr:hover td:first-child{background:#e8eaf4!important}
 <div class="app">
 
 <div class="hdr">
-  <h1>Cobra Ya</h1>
-  <div class="sub">Adopción y Desempeño</div>
+  <div class="hdr-top">
+    <div>
+      <h1>Cobra Ya</h1>
+      <div class="sub">Adopción y Desempeño</div>
+    </div>
+    <div class="hdr-acts">
+      <button class="hdr-btn" aria-label="Buscar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <button class="hdr-btn" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+    </div>
+  </div>
   <div class="per" id="hdr-per">Julio 2025 — Abril 2026</div>
 </div>
 
@@ -187,7 +205,7 @@ tbody tr:hover td:first-child{background:#e8eaf4!important}
     <div class="cc"><div class="ct">Transportes Activos por Mes</div><canvas id="cActivos"></canvas></div>
     <div class="cc"><div class="ct">Nuevos Transportes y Acumulado</div><canvas id="cNuevos"></canvas></div>
     <div class="cc"><div class="ct">Variación % del Monto vs Mes Anterior</div><canvas id="cVar"></canvas></div>
-    <p class="nota">Agosto registra la caída más pronunciada (–67,6%) por la brecha entre cosecha fina y gruesa. Los picos de diciembre y marzo-abril coinciden con la cosecha gruesa de soja y maíz.</p>
+    <p class="nota" id="evol-nota"></p>
   </div>
 
   <!-- TAB 2: ADOPCIÓN -->
@@ -281,8 +299,8 @@ tbody tr:hover td:first-child{background:#e8eaf4!important}
     Datos
   </button>
   <button class="ni" onclick="showTab(4,this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-    Cargar
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+    Más
   </button>
 </nav>
 </div>
@@ -452,21 +470,19 @@ function renderResCons() {
   const apPct=+((tA/(tA+tP))*100).toFixed(1);
   const bestM=months.reduce((a,b)=>b.monto>a.monto?b:a,months[0]);
   const bestC=months.reduce((a,b)=>b.cobrado>a.cobrado?b:a,months[0]);
+  const transpCrec=first?+((last.transp-first.transp)/first.transp*100).toFixed(1):0;
   document.getElementById('res-content').innerHTML=`
-    <div class="stitle">Resumen Ejecutivo — ${first?first.label:''} a ${last?last.label:''}</div>
-    <div class="kg">
-      <div class="kpi"><div class="kl">Monto Solicitado</div><div class="kv">${fmM(tM)}</div><div class="ks">${months.length} meses</div></div>
-      <div class="kpi na"><div class="kl">Comisiones</div><div class="kv">${fmM(tC)}</div><div class="ks">Prom: ${fmM(Math.round(tC/months.length))}/mes</div></div>
-      <div class="kpi"><div class="kl">Solicitudes</div><div class="kv">${(tA+tP).toLocaleString('es-AR')}</div><div class="ks">Aprobadas: <span class="pos">${apPct}%</span></div></div>
-      <div class="kpi ve"><div class="kl">Activos ${last?last.label:''}</div><div class="kv">${last?last.transp.toLocaleString('es-AR'):0}</div><div class="ks"><span class="pos">+${crec}%</span> vs inicio</div></div>
+    <div class="stitle-res">Resumen Ejecutivo — ${first?first.label:''} a ${last?last.label:''}</div>
+    <div class="kg kg3">
+      <div class="kpi"><div class="kico az"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="kl">Monto Solicitado</div><div class="kv">${fmM(tM)}</div><div class="ks">${months.length} meses</div></div>
+      <div class="kpi na"><div class="kico na"><svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div><div class="kl">Comisiones</div><div class="kv">${fmM(tC)}</div><div class="ks">Prom: ${fmM(Math.round(tC/months.length))}/mes</div></div>
+      <div class="kpi ve"><div class="kico ve"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="kl">Solicitudes</div><div class="kv">${(tA+tP).toLocaleString('es-AR')}</div><div class="ks">Aprobadas: <span class="pos">${apPct}%</span></div></div>
+      <div class="kpi"><div class="kico ve-l"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="kl">Activos ${last?last.label:''}</div><div class="kv">${last?last.transp.toLocaleString('es-AR'):0}</div><div class="ks"><span class="pos">+${crec}%</span> vs inicio</div></div>
+      <div class="kpi"><div class="kico na-l"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="kl">Mejor Mes</div><div class="kv">${bestM?bestM.label:'—'}</div><div class="ks">${bestM?fmM(bestM.monto):''}</div></div>
+      <div class="kpi"><div class="kico az-l"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="kl">Mayor Comisión</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
     </div>
-    <div class="kg">
-      <div class="kpi na"><div class="kl">Mejor Mes</div><div class="kv">${bestM?bestM.label:'—'}</div><div class="ks">${bestM?fmM(bestM.monto):''}</div></div>
-      <div class="kpi na"><div class="kl">Mayor Comisión</div><div class="kv">${bestC?fmM(bestC.cobrado):'—'}</div><div class="ks">${bestC?bestC.label:''}</div></div>
-      <div class="kpi ${crec>0?'ve':'ro'}"><div class="kl">Crecimiento</div><div class="kv"><span class="${crec>0?'pos':'neg'}">${crec>0?'+':''}${crec}%</span></div><div class="ks">Monto mensual</div></div>
-      <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${months.reduce((s,m)=>s+m.nuevos,0).toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
-    </div>
-    <div class="al ve"><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div>`;
+    <div class="al ve" style="display:flex;align-items:center;gap:12px"><div class="kico ve-l" style="flex-shrink:0;margin:0"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div><strong>Crecimiento sostenido en ${months.length} meses del periodo</strong><p>El volumen mensual creció ${crec}% y el monto cobrado de ${first?fmM(first.cobrado):''} a ${last?fmM(last.cobrado):''}.</p></div></div>
+    <div class="al az" style="display:flex;align-items:center;gap:12px"><div class="kico az-l" style="flex-shrink:0;margin:0"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><strong>Flota activa creció ${transpCrec}% en el periodo</strong><p>De ${first?first.transp.toLocaleString('es-AR'):0} a ${last?last.transp.toLocaleString('es-AR'):0} transportes, sumando ${first&&last?(last.transp-first.transp).toLocaleString('es-AR'):0} nuevas unidades.</p></div></div>`;
 }
 
 function renderResMes(m) {
@@ -543,6 +559,8 @@ function renderEvol() {
   }}});
 
   mk('cVar',{type:'bar',data:{labels:L,datasets:[{label:'Var. %',data:vd,backgroundColor:vc,borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:ctx=>ctx.raw+'%'}}},scales:{x:AXX,y:{...AXY,ticks:{callback:v=>v+'%',font:FNT}}}}});
+  const notaEl=document.getElementById('evol-nota');
+  if(notaEl){const vSlice=vd.slice(1);const minV=Math.min(...vSlice),maxV=Math.max(...vSlice);const minI=vd.indexOf(minV),maxI=vd.indexOf(maxV);notaEl.textContent=`${months[minI].label} registra la mayor caída del periodo (${minV}%). ${months[maxI].label} lidera el crecimiento (+${maxV}%) — pico de cosecha gruesa.`;}
 }
 
 // ===== ADOPCIÓN =====
@@ -603,24 +621,18 @@ function renderAdop() {
     const adLast=adMeses.length?adMeses[adMeses.length-1]:null;
     const adFirst=adMeses.length?adMeses[0]:null;
     cont.innerHTML=`
-      <div class="stitle">Adopción — Periodo Completo</div>
-      <div class="kg">
-        <div class="kpi ve"><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
-        <div class="kpi na"><div class="kl">Usaron 5+ meses</div><div class="kv">${RETCNT.slice(4).reduce((a,b)=>a+b,0).toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT.slice(4).reduce((a,b)=>a+b,0)/tot*1000)/10}% del total</div></div>
-        <div class="kpi ve"><div class="kl">Usaron los ${months.length} meses</div><div class="kv">${RETCNT[months.length-1].toLocaleString('es-AR')}</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
-        <div class="kpi ro"><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">${RETCNT[0].toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT[0]/tot*1000)/10}% del total</div></div>
+      <div class="stitle-res">Adopción — Periodo Completo</div>
+      <div class="kg kg3">
+        <div class="kpi ve"><div class="kico ve"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="kl">Transportes Únicos</div><div class="kv">${tot.toLocaleString('es-AR')}</div><div class="ks">Usaron al menos 1 vez</div></div>
+        <div class="kpi na"><div class="kico na"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div><div class="kl">Usaron 5+ meses</div><div class="kv">${RETCNT.slice(4).reduce((a,b)=>a+b,0).toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT.slice(4).reduce((a,b)=>a+b,0)/tot*1000)/10}% del total</div></div>
+        ${adLast?`<div class="kpi"><div class="kico az-l"><svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div><div class="kl">% del Flete — ${adLast.label}</div><div class="kv">${ADOPCION_MKT[adLast.id].pct}%</div><div class="ks">${adMeses.length} meses con dato</div></div>`:''}
+        <div class="kpi ve"><div class="kico az"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="kl">Usaron los ${months.length} meses</div><div class="kv">${RETCNT[months.length-1].toLocaleString('es-AR')}</div><div class="ks">Núcleo fiel — máx. LTV</div></div>
+        <div class="kpi ro"><div class="kico ro"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="kl">Solo 1 mes — Riesgo Churn</div><div class="kv">${RETCNT[0].toLocaleString('es-AR')}</div><div class="ks">${Math.round(RETCNT[0]/tot*1000)/10}% del total</div></div>
+        ${adLast?`<div class="kpi ve"><div class="kico ve-l"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="kl">Evolución del Flete</div><div class="kv">+${Math.round((ADOPCION_MKT[adLast.id].pct-ADOPCION_MKT[adFirst.id].pct)*10)/10}pp</div><div class="ks">${ADOPCION_MKT[adFirst.id].pct}% → ${ADOPCION_MKT[adLast.id].pct}% (${adFirst.label}→${adLast.label})</div></div>`:''}
       </div>
-      ${adLast?`<div class="dvdr"></div>
-      <div class="stitle">Penetración del Mercado de Fletes</div>
-      <div class="kg">
-        <div class="kpi"><div class="kl">% del Flete — ${adLast.label}</div><div class="kv">${ADOPCION_MKT[adLast.id].pct}%</div><div class="ks">${adMeses.length} meses con dato</div></div>
-        <div class="kpi ve"><div class="kl">Evolución</div><div class="kv">+${Math.round((ADOPCION_MKT[adLast.id].pct-ADOPCION_MKT[adFirst.id].pct)*10)/10}pp</div><div class="ks">${ADOPCION_MKT[adFirst.id].pct}% → ${ADOPCION_MKT[adLast.id].pct}% (${adFirst.label}→${adLast.label})</div></div>
-      </div>
-      <div class="cc"><div class="ct">% del Flete Total Pagado por Mes</div><canvas id="cAdop"></canvas></div>`:''}
+      ${adLast?`<div class="cc"><div class="ct">% del Flete Total Pagado por Mes</div><canvas id="cAdop"></canvas></div>`:''}
       <div class="cc"><div class="ct">Transportes según Meses de Uso</div><canvas id="cRet"></canvas></div>
       <div class="cc"><div class="ct">Monto Solicitado por Profundidad (M$)</div><canvas id="cRetMs"></canvas></div>
-      <div class="al na"><strong>${RETCNT[0]} transportes usaron Cobra Ya solo una vez</strong><p>Comunicación segmentada antes de los picos de cosecha puede reactivar este segmento sin captar nuevos usuarios.</p></div>
-      <div class="al ve"><strong>Los ${RETCNT[months.length-1]} de ${months.length} meses generan $${RETMS[months.length-1].toLocaleString('es-AR')} M (${Math.round(RETMS[months.length-1]/RETMS.reduce((a,b)=>a+b,0)*1000)/10}% del total)</strong><p>Cualquier fricción operativa los impacta desproporcionadamente — vale proteger su experiencia de forma diferencial.</p></div>
       <div class="stitle mt">Top 15 Transportes por Volumen</div>
       <div class="tw"><table>
         <thead><tr><th class="c">#</th><th>Transporte</th><th class="c">Ops</th><th class="c">Meses</th><th class="r">Monto</th></tr></thead>
