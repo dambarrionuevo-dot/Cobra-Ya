@@ -317,6 +317,7 @@ const SEED = [
   {id:"2026-03",label:"Mar-26",monto:3612,cobrado:112,apro:4151,pend:96, transp:978, nuevos:218},
   {id:"2026-04",label:"Abr-26",monto:4688,cobrado:133,apro:4474,pend:46, transp:1049,nuevos:208},
   {id:"2026-05",label:"May-26",monto:6557,cobrado:189,apro:6022,pend:95, transp:1129,nuevos:203},
+  {id:"2026-06",label:"Jun-26",monto:11056,cobrado:332,apro:9500,pend:0,  transp:1415,nuevos:286},
 ];
 
 const RANKING = [
@@ -351,16 +352,17 @@ const RANKING_MES={
   "2026-05":{pct:27.4,items:[{n:"CAMINOS AL PUERTO S.R.L.",ops:77,monto:320.0},{n:"Logística don Fermín Trenque lauquen",ops:75,monto:237.1},{n:"AGROTRANSPORTE ALDAO S.A.",ops:94,monto:218.5},{n:"TARUKA S. R. L.",ops:37,monto:155.7},{n:"SOSA VIOLETA MARINA",ops:59,monto:143.8},{n:"MONTI LORENA BEATRIZ",ops:40,monto:139.3},{n:"CUARTA RAZA SA",ops:19,monto:124.3},{n:"SERVICIOS JFDC S.R.L",ops:51,monto:113.6},{n:"ENRI CLAUDIO MARCELO",ops:36,monto:77.0},{n:"Tarditi alejandro emanuel",ops:21,monto:56.3},{n:"HEREDIA WALTER E HIJOS S.A.S.",ops:25,monto:46.5},{n:"LUCERO LEONARDO FABIO",ops:15,monto:45.0},{n:"YRUSTA SONIA MABEL",ops:6,monto:43.2},{n:"KURZ JAVIER GERMAN",ops:40,monto:40.7},{n:"DIAZ MARIA DE LOS ANGELES",ops:15,monto:35.5}]},
 };
 
-const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m","11 m"];
-const RETCNT=[868,418,262,178,129,116,100,85,70,80,102];
-const RETMS=[1563,1763,2616,2414,1794,3437,2292,2177,2923,2771,8305];
-const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50"];
+const RETLBLS=["1 mes","2 m","3 m","4 m","5 m","6 m","7 m","8 m","9 m","10 m","11 m","12 m"];
+const RETCNT=[747,486,290,207,163,115,112,90,78,70,76,101];
+const RETMS=[1166,2551,2172,4223,2550,2482,4779,2696,2674,3733,3324,10763];
+const RETCOL=["#D32F2F","#D32F2F","#F58F00","#F58F00","#F58F00","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50","#4CAF50"];
 const ADOPCION_MKT={
   "2026-01":{flete:16269,pct:13.4},
   "2026-02":{flete:12927,pct:17.9},
   "2026-03":{flete:15841,pct:24.0},
   "2026-04":{flete:21053,pct:23.4},
   "2026-05":{flete:29176,pct:23.7},
+  "2026-06":{flete:38225,pct:28.9},
 };
 
 // ===== STATE =====
@@ -470,7 +472,7 @@ function renderResCons() {
   const bestC=months.reduce((a,b)=>b.cobrado>a.cobrado?b:a,months[0]);
   const transpCrec=first?+((last.transp-first.transp)/first.transp*100).toFixed(1):0;
   document.getElementById('res-content').innerHTML=`
-    <div class="stitle-res">Resumen Ejecutivo — ${first?first.label:''} a ${last?last.label:''}</div>
+    <div class="stitle-res">Resumen General</div>
     <div class="kg kg3">
       <div class="kpi"><div class="kico az"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="kl">Monto Solicitado</div><div class="kv">${fmM(tM)}</div><div class="ks">${months.length} meses</div></div>
       <div class="kpi na"><div class="kico na"><svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div><div class="kl">Comisiones</div><div class="kv">${fmM(tC)}</div><div class="ks">Prom: ${fmM(Math.round(tC/months.length))}/mes</div></div>
