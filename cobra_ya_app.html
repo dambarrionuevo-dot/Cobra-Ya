@@ -207,9 +207,9 @@ table.dtable{width:100%;border-collapse:collapse;font-size:.72rem;table-layout:f
 /* MODALS */
 .scrim{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:10;display:none}
 .scrim.show{display:block}
-.sheet{position:absolute;left:0;right:0;bottom:-100%;background:var(--card);border-radius:22px 22px 0 0;z-index:11;max-height:70%;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.2);transition:bottom .2s ease}
-.sheet.show{bottom:0}
-.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:99px;margin:10px auto 4px;flex-shrink:0}
+.sheet{position:absolute;left:0;right:0;top:-100%;background:var(--card);border-radius:0 0 22px 22px;z-index:11;max-height:70%;display:flex;flex-direction:column;box-shadow:0 8px 30px rgba(0,0,0,.2);transition:top .2s ease}
+.sheet.show{top:0}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:99px;margin:4px auto 10px;flex-shrink:0;order:2}
 .sheet-title{padding:6px 18px 4px;font-size:.9rem;font-weight:800;color:var(--ink);flex-shrink:0}
 .sheet-list{overflow-y:auto;padding:4px 10px 8px;flex:1;min-height:0}
 .sheet-row{display:flex;justify-content:space-between;align-items:center;width:100%;padding:12px 10px;border:none;background:transparent;cursor:pointer;font-family:inherit;border-bottom:1px solid var(--border);color:var(--ink)}
