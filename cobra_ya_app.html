@@ -867,9 +867,26 @@ function renderAdop(){
     rankRows=RANKING.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:r.monto}));
     rankNote='Representan el '+RANKING_NOTA_PCT+'% del monto total del ejercicio.';
   } else {
-    rankTitle='Top Transportes por Volumen';
-    rankRows=[];
-    rankNote='Elegí un mes específico para ver su ranking, o cargá todos los meses del ejercicio para un consolidado.';
+    // Consolidado sin RANKING hardcodeado (ej. 2026/27): sumamos los rankings por mes ya cargados
+    const withRanking = months.filter(m=>m.ranking&&m.ranking.length);
+    if(withRanking.length){
+      const map={};
+      withRanking.forEach(m=>m.ranking.forEach(r=>{
+        if(!map[r.n]) map[r.n]={n:r.n,ops:0,monto:0};
+        map[r.n].ops+=r.ops; map[r.n].monto+=r.monto;
+      }));
+      const agg=Object.values(map).sort((a,b)=>b.monto-a.monto).slice(0,15);
+      const totalMonto=months.reduce((s,m)=>s+m.monto,0);
+      const topSum=agg.reduce((s,e)=>s+e.monto,0);
+      const pct=totalMonto>0?Math.round(topSum/totalMonto*1000)/10:null;
+      rankTitle='Top 15 Transportes por Volumen';
+      rankRows=agg.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:Math.round(r.monto*10)/10}));
+      rankNote=(pct!=null?'Representan el '+pct+'% del monto total del ejercicio (suma de '+withRanking.length+' mes'+(withRanking.length>1?'es':'')+' cargado'+(withRanking.length>1?'s':'')+').':'Suma de '+withRanking.length+' mes'+(withRanking.length>1?'es':'')+' cargado'+(withRanking.length>1?'s':'')+'.');
+    } else {
+      rankTitle='Top Transportes por Volumen';
+      rankRows=[];
+      rankNote='Elegí un mes específico para ver su ranking, o cargá el detalle Excel de los meses para un consolidado.';
+    }
   }
   const rankCard = `<div class="card2">
     <div class="card2-title-static">${rankTitle}</div>
