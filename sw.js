@@ -1,8 +1,7 @@
-const CACHE = 'cy-v2';
+const CACHE = 'cy-v3';
 
 // Solo cacheamos recursos estáticos externos que nunca cambian
 const STATIC = [
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
   './icon.svg',
   './icon-maskable.svg',
