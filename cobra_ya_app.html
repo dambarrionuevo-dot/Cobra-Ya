@@ -327,8 +327,8 @@ const EJERCICIOS_SEED = {
     {id:"2026-06",label:"Jun-26",monto:11056,cobrado:332,apro:9500,pend:0,  transp:1415,nuevos:286},
   ],
   '2026/27': [
-    {id:"2026-07",label:"Jul-26",monto:11400,cobrado:340,apro:9650,pend:12,transp:1450,nuevos:38},
-    {id:"2026-08",label:"Ago-26",monto:11900,cobrado:352,apro:10040,pend:9,transp:1490,nuevos:42}
+    {id:"2026-07",label:"Jul-26",monto:6586,cobrado:222,apro:4689,pend:453,transp:1033,nuevos:1033,rankingPct:25.5,ranking:[{n:"SERVERA MATIAS HERNAN",ops:94,monto:238.1},{n:"VIOLETA MARINA SOSA",ops:51,monto:207.7},{n:"CUARTA RAZA SA",ops:14,monto:203.2},{n:"CAMINOS AL PUERTO S.R.L.",ops:43,monto:172.4},{n:"VICTORIA ANAHI GONZALEZ",ops:69,monto:141.9},{n:"MARTINEZ DAVID OSVALDO",ops:66,monto:126.6},{n:"HEREDIA WALTER E HIJOS S.A.S.",ops:54,monto:83.2},{n:"TRANSPORTE CADIZ S.A.S.",ops:23,monto:81.3},{n:"YRUSTA SONIA MABEL",ops:6,monto:70.6},{n:"MONTI LORENA BEATRIZ",ops:31,monto:65.1},{n:"CARBAJAL ROMINA ANAHI",ops:12,monto:64.8},{n:"AGUSTIN ALBERTO ALEGRIA CACERES",ops:5,monto:63.1},{n:"HEREDIA CRISTIAN EDISON",ops:18,monto:54.8},{n:"SARTORE MAURO DANIEL",ops:4,monto:53.2},{n:"TRANS-CEREAL SOCIEDAD ANONIMA",ops:31,monto:51.1}]},
+    {id:"2026-08",label:"Ago-26",monto:6074,cobrado:191,apro:4718,pend:143,transp:1041,nuevos:364,rankingPct:27.0,ranking:[{n:"CAMINOS AL PUERTO S.R.L.",ops:84,monto:252.3},{n:"VICTORIA ANAHI GONZALEZ",ops:65,monto:198.9},{n:"CUARTA RAZA SA",ops:17,monto:172.4},{n:"SERVERA MATIAS HERNAN",ops:61,monto:170.8},{n:"VIOLETA MARINA SOSA",ops:43,monto:154.9},{n:"MARCELO ALEJANDRO VALLOZZI",ops:59,monto:121.0},{n:"MARTINEZ DAVID OSVALDO",ops:51,monto:113.3},{n:"TRANSPORTE CADIZ S.A.S.",ops:21,monto:93.5},{n:"MANTEROLA MAURO DANIEL",ops:6,monto:78.2},{n:"DURA JOSE FRANCISCO Y BARBERO MARCELO",ops:8,monto:56.9},{n:"CARBAJAL ROMINA ANAHI",ops:7,monto:51.2},{n:"HEREDIA CRISTIAN EDISON",ops:15,monto:49.9},{n:"HEREDIA WALTER E HIJOS S.A.S.",ops:20,monto:47.3},{n:"MONTI LORENA BEATRIZ",ops:31,monto:40.3},{n:"SPITTELER ALEXIS ISMAEL",ops:14,monto:39.5}]}
   ]
 };
 
@@ -375,6 +375,8 @@ const ADOPCION_MKT={
   "2026-04":{flete:21053,pct:23.4},
   "2026-05":{flete:29176,pct:23.7},
   "2026-06":{flete:38225,pct:28.9},
+  "2026-07":{flete:27075,pct:24.5},
+  "2026-08":{flete:36217,pct:17.4},
 };
 
 // ===== STATE =====
@@ -387,31 +389,37 @@ let selPer = 'all', activeTab = 0, compareOn = true, darkMode = false, sheetOpen
 
 const MLbl=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
-// ===== PERSISTENCE (v6 -> v7 migration) =====
+// ===== PERSISTENCE (v6 -> v7 -> v8 migration) =====
+// v8: 2026/27 pasó de ser un placeholder de ejemplo a datos reales (Jul-26/Ago-26) —
+// se fuerza un reseed de ese ejercicio aunque ya exista un v7 cacheado con el placeholder viejo.
 function loadState(){
   let stored=null;
-  try{ const raw=localStorage.getItem('cy_v7'); if(raw) stored=JSON.parse(raw); }catch(e){ stored=null; }
+  try{ const raw=localStorage.getItem('cy_v8'); if(raw) stored=JSON.parse(raw); }catch(e){ stored=null; }
   if(stored && stored.data){
     ejercicio = stored.ejercicio || '2025/26';
     EJERCICIOS = stored.data;
     EJ_PLACEHOLDER = stored.placeholder || {};
   } else {
+    let prev=null;
+    try{ const rawPrev=localStorage.getItem('cy_v7'); if(rawPrev) prev=JSON.parse(rawPrev); }catch(e){ prev=null; }
     let old=null;
-    try{ const rawOld=localStorage.getItem('cy_v6'); if(rawOld) old=JSON.parse(rawOld); }catch(e){ old=null; }
+    if(!prev){ try{ const rawOld=localStorage.getItem('cy_v6'); if(rawOld) old=JSON.parse(rawOld); }catch(e){ old=null; } }
     EJERCICIOS = {};
-    EJERCICIOS['2025/26'] = (old && Array.isArray(old)) ? old : JSON.parse(JSON.stringify(EJERCICIOS_SEED['2025/26']));
+    EJERCICIOS['2025/26'] = (prev && prev.data && Array.isArray(prev.data['2025/26'])) ? prev.data['2025/26']
+                            : (old && Array.isArray(old)) ? old
+                            : JSON.parse(JSON.stringify(EJERCICIOS_SEED['2025/26']));
     EJERCICIOS['2026/27'] = JSON.parse(JSON.stringify(EJERCICIOS_SEED['2026/27']));
-    EJ_PLACEHOLDER = {'2026/27': true};
-    ejercicio = '2025/26';
+    EJ_PLACEHOLDER = {};
+    ejercicio = (prev && prev.ejercicio) || '2025/26';
     saveState();
   }
   if(!EJERCICIOS['2025/26']) EJERCICIOS['2025/26']=JSON.parse(JSON.stringify(EJERCICIOS_SEED['2025/26']));
-  if(!EJERCICIOS['2026/27']){ EJERCICIOS['2026/27']=JSON.parse(JSON.stringify(EJERCICIOS_SEED['2026/27'])); if(EJ_PLACEHOLDER['2026/27']===undefined) EJ_PLACEHOLDER['2026/27']=true; }
+  if(!EJERCICIOS['2026/27']) EJERCICIOS['2026/27']=JSON.parse(JSON.stringify(EJERCICIOS_SEED['2026/27']));
   months = EJERCICIOS[ejercicio];
   months.sort((a,b)=>a.id.localeCompare(b.id));
 }
 function saveState(){
-  localStorage.setItem('cy_v7', JSON.stringify({ejercicio, data:EJERCICIOS, placeholder:EJ_PLACEHOLDER}));
+  localStorage.setItem('cy_v8', JSON.stringify({ejercicio, data:EJERCICIOS, placeholder:EJ_PLACEHOLDER}));
 }
 
 // ===== HELPERS =====
@@ -775,7 +783,7 @@ function renderEvol(){
 // ===== ADOPCIÓN =====
 function renderAdop(){
   const sel=getSel();
-  const hasAdopcionData = ejercicio==='2025/26';
+  const hasRetentionData = ejercicio==='2025/26'; // histograma de "meses de uso" necesita un año completo de historial
   const adRecArr = months.map(m=>m.transp-m.nuevos);
   let adTranspVal,adRecurrentesVal,adNuevosVal,adRetencionVal,adHasFlete,adFletePct,adFleteSub;
 
@@ -800,23 +808,25 @@ function renderAdop(){
     `<div class="stat2"><div class="stat2-col"><div class="stat2-lbl">Recurrentes</div><div class="stat2-val" style="color:var(--green)">${adRecurrentesVal}</div></div><div class="stat2-col b"><div class="stat2-lbl">Nuevos</div><div class="stat2-val" style="color:var(--orange)">${adNuevosVal}</div></div></div>`,
     expNR?barsHTML(prepBarsGrouped(months.map(m=>m.nuevos),adRecArr,months,'var(--orange)','var(--green)','a-a',fmN,fmN,'Nuevos','Recurrentes'),'grouped',66):'');
 
-  let gatedHtml='';
-  if(hasAdopcionData){
+  // "Adopción sobre el Mercado" depende solo de tener flete cargado ese mes/ejercicio, no del ejercicio en sí
+  let fleteCard='';
+  if(adHasFlete){
+    const expFlete=expandedCard==='ad-b';
+    const fleteMonths=months.filter(m=>ADOPCION_MKT[m.id]);
+    const fleteBars=prepBars(fleteMonths.map(m=>ADOPCION_MKT[m.id].pct),fleteMonths,'var(--navy)','a-b',v=>v+'%');
+    fleteCard = card2Tpl('ad-b',expFlete,'var(--navy)',icoTrend,'Adopción sobre el Mercado',
+      `<div class="stat2 one"><div class="stat2-col"><div class="stat2-val" style="color:var(--navy)">${adFletePct}</div><div class="stat2-lbl" style="text-transform:none;font-weight:600">${adFleteSub}</div></div></div>`,
+      expFlete?barsHTML(fleteBars,'single',62):'');
+  }
+
+  // Histograma "meses de uso" necesita un ejercicio completo de historial -> sigue gateado a 2025/26
+  let retentionHtml='';
+  if(hasRetentionData){
     const adUnicos=months.reduce((s,m)=>s+m.nuevos,0);
     const cnt5=RETCNT.slice(4).reduce((a,b)=>a+b,0);
     const ad5MasVal=fmN(cnt5), ad5MasPct=Math.round(cnt5/adUnicos*1000)/10;
     const idxAll = RETCNT[months.length-1]!==undefined ? RETCNT[months.length-1] : RETCNT[RETCNT.length-1];
     const adTodosMesesVal=fmN(idxAll), adSolo1Val=fmN(RETCNT[0]);
-
-    let fleteCard='';
-    if(adHasFlete){
-      const expFlete=expandedCard==='ad-b';
-      const fleteMonths=months.filter(m=>ADOPCION_MKT[m.id]);
-      const fleteBars=prepBars(fleteMonths.map(m=>ADOPCION_MKT[m.id].pct),fleteMonths,'var(--navy)','a-b',v=>v+'%');
-      fleteCard = card2Tpl('ad-b',expFlete,'var(--navy)',icoTrend,'Adopción sobre el Mercado',
-        `<div class="stat2 one"><div class="stat2-col"><div class="stat2-val" style="color:var(--navy)">${adFletePct}</div><div class="stat2-lbl" style="text-transform:none;font-weight:600">${adFleteSub}</div></div></div>`,
-        expFlete?barsHTML(fleteBars,'single',62):'');
-    }
 
     const expRet=expandedCard==='ad-c';
     const retCard = card2Tpl('ad-c',expRet,'var(--green)',icoShield,'Transportes según Meses de Uso',
@@ -828,33 +838,45 @@ function renderAdop(){
       `<div class="stat2-note">${ad5MasVal} transportes usaron 5 o más meses (${ad5MasPct}% del total).</div>`,
       expMonto?barsHTML(prepCategorical(RETMS,RETLBLS,RETCOL,'a-d',fmM),'categorical',62):'');
 
-    let rankTitle,rankRows,rankNote;
-    if(sel && RANKING_MES[sel.id]){
-      rankTitle='Top Transportes — '+sel.label;
-      rankRows=RANKING_MES[sel.id].items.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:'$'+r.monto.toLocaleString('es-AR')+' M'}));
-      rankNote='Representan el '+RANKING_MES[sel.id].pct+'% del monto de '+sel.label+'.';
-    } else if(sel){
-      rankTitle='Top Transportes — '+sel.label;
-      rankRows=[];
-      rankNote='Sin ranking específico de '+sel.label+'. Cargá el Excel del mes para verlo.';
-    } else {
-      rankTitle='Top 15 Transportes por Volumen';
-      rankRows=RANKING.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:r.monto}));
-      rankNote='Representan el '+RANKING_NOTA_PCT+'% del monto total del ejercicio.';
-    }
-    const rankCard = `<div class="card2">
-      <div class="card2-title-static">${rankTitle}</div>
-      ${rankRows.length? rankRows.map(r=>`<div class="rankrow"><span class="rankbadge">${r.rank}</span><span class="rankname">${r.n}</span><span class="rankops">${r.ops} ops</span><span class="rankmonto">${typeof r.monto==='number'?'$'+r.monto.toLocaleString('es-AR')+' M':r.monto}</span></div>`).join('') : '<div class="stat2-note">Sin datos de ranking.</div>'}
-      <div class="ranknote">${rankNote}</div>
-    </div>`;
-
-    gatedHtml = `${fleteCard}${retCard}${montoCard}${rankCard}`;
+    retentionHtml = `${retCard}${montoCard}`;
   } else {
-    gatedHtml = `<div class="card2 nodata-card">
-      <div class="nodata-title">Sin ranking ni retención para este ejercicio</div>
-      <div class="nodata-body">Esos datos están disponibles para el Ejercicio 2025/26. Cargá el detalle de Ejercicio ${ejercicio} para habilitarlos aquí.</div>
+    retentionHtml = `<div class="card2 nodata-card">
+      <div class="nodata-title">Sin historial suficiente para retención</div>
+      <div class="nodata-body">El histograma de meses de uso necesita un ejercicio completo cargado. Disponible hoy para Ejercicio 2025/26.</div>
     </div>`;
   }
+
+  // Ranking: usa el ranking propio del mes (cargado por Excel/manual) si existe, sin importar el ejercicio;
+  // si no hay mes seleccionado, el top-15 consolidado solo existe hardcodeado para 2025/26.
+  let rankTitle,rankRows,rankNote;
+  if(sel && sel.ranking && sel.ranking.length){
+    rankTitle='Top Transportes — '+sel.label;
+    rankRows=sel.ranking.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:r.monto}));
+    rankNote=(sel.rankingPct!=null?'Representan el '+sel.rankingPct+'% del monto de '+sel.label+'.':'Top 15 transportes de '+sel.label+'.');
+  } else if(sel && RANKING_MES[sel.id]){
+    rankTitle='Top Transportes — '+sel.label;
+    rankRows=RANKING_MES[sel.id].items.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:'$'+r.monto.toLocaleString('es-AR')+' M'}));
+    rankNote='Representan el '+RANKING_MES[sel.id].pct+'% del monto de '+sel.label+'.';
+  } else if(sel){
+    rankTitle='Top Transportes — '+sel.label;
+    rankRows=[];
+    rankNote='Sin ranking específico de '+sel.label+'. Cargá el Excel del mes para verlo.';
+  } else if(ejercicio==='2025/26'){
+    rankTitle='Top 15 Transportes por Volumen';
+    rankRows=RANKING.map((r,i)=>({rank:i+1,n:r.n,ops:r.ops,monto:r.monto}));
+    rankNote='Representan el '+RANKING_NOTA_PCT+'% del monto total del ejercicio.';
+  } else {
+    rankTitle='Top Transportes por Volumen';
+    rankRows=[];
+    rankNote='Elegí un mes específico para ver su ranking, o cargá todos los meses del ejercicio para un consolidado.';
+  }
+  const rankCard = `<div class="card2">
+    <div class="card2-title-static">${rankTitle}</div>
+    ${rankRows.length? rankRows.map(r=>`<div class="rankrow"><span class="rankbadge">${r.rank}</span><span class="rankname">${r.n}</span><span class="rankops">${r.ops} ops</span><span class="rankmonto">${typeof r.monto==='number'?'$'+r.monto.toLocaleString('es-AR')+' M':r.monto}</span></div>`).join('') : '<div class="stat2-note">Sin datos de ranking.</div>'}
+    <div class="ranknote">${rankNote}</div>
+  </div>`;
+
+  const gatedHtml = `${fleteCard}${retentionHtml}${rankCard}`;
 
   document.getElementById('adop-content').innerHTML = `
     <div class="card2">
