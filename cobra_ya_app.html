@@ -396,7 +396,6 @@ function loadState(){
   let stored=null;
   try{ const raw=localStorage.getItem('cy_v8'); if(raw) stored=JSON.parse(raw); }catch(e){ stored=null; }
   if(stored && stored.data){
-    ejercicio = stored.ejercicio || '2025/26';
     EJERCICIOS = stored.data;
     EJ_PLACEHOLDER = stored.placeholder || {};
   } else {
@@ -410,13 +409,15 @@ function loadState(){
                             : JSON.parse(JSON.stringify(EJERCICIOS_SEED['2025/26']));
     EJERCICIOS['2026/27'] = JSON.parse(JSON.stringify(EJERCICIOS_SEED['2026/27']));
     EJ_PLACEHOLDER = {};
-    ejercicio = (prev && prev.ejercicio) || '2025/26';
     saveState();
   }
   if(!EJERCICIOS['2025/26']) EJERCICIOS['2025/26']=JSON.parse(JSON.stringify(EJERCICIOS_SEED['2025/26']));
   if(!EJERCICIOS['2026/27']) EJERCICIOS['2026/27']=JSON.parse(JSON.stringify(EJERCICIOS_SEED['2026/27']));
+  // al abrir la app siempre arrancamos en el Ejercicio 2026/27, en el último mes cargado
+  ejercicio = '2026/27';
   months = EJERCICIOS[ejercicio];
   months.sort((a,b)=>a.id.localeCompare(b.id));
+  selPer = months.length ? months[months.length-1].id : 'all';
 }
 function saveState(){
   localStorage.setItem('cy_v8', JSON.stringify({ejercicio, data:EJERCICIOS, placeholder:EJ_PLACEHOLDER}));
